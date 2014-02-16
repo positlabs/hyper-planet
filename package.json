@@ -1,0 +1,23 @@
+{
+  "name": "hyper-planet",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/positlabs/hyper-planet.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/positlabs/hyper-planet/issues"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "almond": "~0.2.9"
+  }
+}

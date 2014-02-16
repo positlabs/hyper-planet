@@ -1,0 +1,14 @@
+{
+  "name": "hyper-planet",
+  "version": "0.0.0",
+  "homepage": "https://github.com/positlabs/hyper-planet",
+  "authors": [
+    "Josh <josh@toolofna.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "ox": "git@github.com:positlabs/ox.git",
+    "requirejs": "~2.1.10",
+    "threejs": "*"
+  }
+}
