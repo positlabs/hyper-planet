@@ -2,41 +2,12 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Hyper-Planet</title>
 
-	<script type="text/glsl" id="projection-shader">
-		precision mediump float;
-
-		uniform sampler2D texture;
-		uniform float scale, aspect, time;
-		uniform mat3 transform;
-
-		varying vec2 v_texcoord;
-
-		#define PI 3.141592653589793
-
-		void main(){
-			vec2 rads = vec2(PI * 2., PI);
-
-			vec2 pnt = (v_texcoord - .5) * vec2(scale, scale * aspect);
-
-			// Project to Sphere
-			float x2y2 = pnt.x * pnt.x + pnt.y * pnt.y;
-			vec3 sphere_pnt = vec3(2. * pnt, x2y2 - 1.) / (x2y2 + 1.);
-			sphere_pnt *= transform;
-
-			// Convert to Spherical Coordinates
-			float r = length(sphere_pnt);
-			float lon = atan(sphere_pnt.y, sphere_pnt.x);
-			float lat = acos(sphere_pnt.z / r);
-
-			gl_FragColor = texture2D(texture, vec2(lon, lat) / rads);
-		}
-	</script>
+	<link rel="stylesheet" type="text/css" href="styles/master.css" media="all"/>
 
 </head>
 <body>
-
 
 <script type="text/javascript" src="js/bower/requirejs/require.js" data-main="js/main"></script>
 

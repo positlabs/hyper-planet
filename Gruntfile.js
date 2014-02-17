@@ -4,12 +4,33 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		watch: {
-			scripts: {
+			js: {
 				files: '**/*.js',
 				tasks: ['requirejs'],
 				options: {
 					interrupt: true
 				}
+			},
+			css: {
+				files: '**/*.less',
+				tasks: ['less'],
+				options: {
+					interrupt: true
+				}
+			}
+		},
+
+		// https://github.com/gruntjs/grunt-contrib-less
+		less: {
+			options: {
+				paths: ["src/styles"]
+			},
+			src: {
+				expand: true,
+				cwd: "src/styles",
+				src: "*.less",
+				dest: "src/styles",
+				ext: ".css"
 			}
 		},
 
@@ -25,10 +46,12 @@ module.exports = function (grunt) {
 				}
 			}
 		}
+
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-less');
 
 //	grunt.registerTask('default', ['requirejs']);
 
