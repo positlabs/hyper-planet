@@ -4,7 +4,7 @@ define(function (require) {
 
 	var StereoProjection = {
 
-		init: function () {
+		init: function (parentEl) {
 
 			var composer, renderer, scene, camera, plane,
 					width = window.innerWidth,
@@ -18,7 +18,7 @@ define(function (require) {
 			camera = new THREE.OrthographicCamera(width / -2, width / 2, height / 2, height / -2, near, far);
 			scene.add(camera);
 
-			document.body.appendChild(renderer.domElement);
+			parentEl.appendChild(renderer.domElement);
 
 			plane = new THREE.Mesh(new THREE.PlaneGeometry(width, height, 1, 1));
 			scene.add(plane);
@@ -34,10 +34,9 @@ define(function (require) {
 			var start_time = Date.now();
 			ox.FrameImpulse.on('frame', function () {
 				var time = (Date.now() - start_time) / 1000;
-
 //					transform: pano_orientation.toMat4().mul(new core.Mat4().rotate(pano_heading + Math.PI / 2, 0,0,1)),
 //				effect.uniforms.scale.value = Math.pow(2, 3);
-				effect.uniforms.scale.value = 8;
+				effect.uniforms.scale.value = 12;
 				effect.uniforms.time.value = time;
 //				effect.uniforms.transform.value = [];
 				effect.uniforms.aspect.value = window.innerHeight / window.innerWidth;
