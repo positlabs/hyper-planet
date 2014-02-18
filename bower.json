@@ -9,6 +9,7 @@
   "dependencies": {
     "ox": "git@github.com:positlabs/ox.git",
     "requirejs": "~2.1.10",
-    "threejs": "*"
+    "threejs": "*",
+    "underscore": "~1.6.0"
   }
 }

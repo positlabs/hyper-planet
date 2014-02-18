@@ -4,6 +4,7 @@ define(["require_config"], function () {
 	require([
 		'StereoProjection',
 		'MapView',
+		'Panorama',
 		'three',
 		'bower/ox/ox',
 		'three.CopyShader',
@@ -14,9 +15,23 @@ define(["require_config"], function () {
 		'three.DotScreenPass',
 		'three.MaskPass',
 		'three.DotScreenShader'
-	], function (StereoProjection, MapView) {
+	], function (StereoProjection, MapView, Panorama) {
 
-		MapView.init(document.body);
+		var gm = google.maps;
+		window.app = new ox.Events();
+
+//		MapView.init(ox("#map-container"));
+
+
+		var berkeley = new gm.LatLng(37.869085, -122.254775);
+		var pano = new Panorama(berkeley);
+		pano.on('load', function () {
+			console.log('pano loaded!');
+		});
+		pano.load();
+
+//		TileLoader.loadByLocation(berkeley);
+
 //		StereoProjection.init(document.body);
 
 	});

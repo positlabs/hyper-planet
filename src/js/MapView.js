@@ -3,26 +3,40 @@ define(function (require) {
 	var MapView = {
 
 		init: function (parentEl) {
-			var fenway = new google.maps.LatLng(42.345573, -71.098326);
+			var mapDiv = ox.create('div');
+			mapDiv.id = 'map-div';
+			parentEl.appendChild(mapDiv);
+			var panoDiv = ox.create('div');
+			panoDiv.id = 'pano-div';
+			parentEl.appendChild(panoDiv);
+
+			var gm = google.maps;
+
+			var berkeley = new google.maps.LatLng(37.869085,-122.254775);
+
 			var mapOptions = {
-				center: fenway,
-				zoom: 14
+				center: berkeley,
+				zoom: 14,
+				mapTypeControlOptions: {
+					mapTypeIds: [ gm.MapTypeId.ROADMAP, gm.MapTypeId.HYBRID]
+				},
+				mapTypeId: gm.MapTypeId.HYBRID
 			};
-			var canvas = ox.create('canvas');
-			parentEl.appendChild(canvas);
-			var map = new google.maps.Map(canvas, mapOptions);
+
+			this.map = new gm.Map(mapDiv, mapOptions);
 			var panoramaOptions = {
-				position: fenway,
+				position: berkeley,
 				pov: {
 					heading: 34,
 					pitch: 10
 				}
 			};
-			var panoDiv = ox.create('div');
-			panoDiv.id = 'pano';
-			parentEl.appendChild(panoDiv);
-			var panorama = new google.maps.StreetViewPanorama(panoDiv, panoramaOptions);
-			map.setStreetView(panorama);
+
+			//TODO: make panorama into its own module
+			this.panorama = new gm.StreetViewPanorama(panoDiv, panoramaOptions);
+			this.map.setStreetView(this.panorama);
+			window.pano = this.panorama; // for debugging only
+
 		}
 
 	};
