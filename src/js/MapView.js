@@ -1,40 +1,59 @@
 define(function (require) {
 
+	var gm = google.maps;
+	var directionsService = new gm.DirectionsService();
+	var directionsDisplay = new gm.DirectionsRenderer({draggable: true});
+
 	var MapView = {
 
-		init: function (parentEl) {
+		init: function (parentEl, startLatLng, endLatLng) {
 			var mapDiv = ox.create('div');
 			mapDiv.id = 'map-div';
 			parentEl.appendChild(mapDiv);
-//			var panoDiv = ox.create('div');
-//			panoDiv.id = 'pano-div';
-//			parentEl.appendChild(panoDiv);
 
 			var gm = google.maps;
 
-			var berkeley = new google.maps.LatLng(37.869085,-122.254775);
-
 			var mapOptions = {
-				center: berkeley,
+				center: startLatLng,
 				zoom: 14,
 				mapTypeControlOptions: {
 					mapTypeIds: [ gm.MapTypeId.ROADMAP, gm.MapTypeId.HYBRID]
 				},
-				mapTypeId: gm.MapTypeId.HYBRID
+				mapTypeId: gm.MapTypeId.HYBRID,
+				streetViewControl:false,
+				panControl:false
 			};
 
 			this.map = new gm.Map(mapDiv, mapOptions);
-//			var panoramaOptions = {
-//				position: berkeley,
-//				pov: {
-//					heading: 34,
-//					pitch: 10
-//				}
-//			};
-//
-//			this.panorama = new gm.StreetViewPanorama(panoDiv, panoramaOptions);
-//			this.map.setStreetView(this.panorama);
-//			window.pano = this.panorama; // for debugging only
+			directionsDisplay.setMap(this.map);
+
+
+			// https://developers.google.com/maps/documentation/javascript/reference#PolylineOptions
+//			var polyLine = new gm.Polyline({
+//				path:[startLatLng, endLatLng],
+//				map:this.map,
+//				editable:true
+//			});
+//			console.log("polyLine",polyLine);
+
+
+			var request = {
+				origin: 'Sydney, NSW',
+				destination: 'North Sydney, NSW',
+				travelMode: gm.TravelMode.DRIVING
+			};
+			directionsService.route(request, function (response, status) {
+				if (status == gm.DirectionsStatus.OK) {
+					console.log("response", response);
+					directionsDisplay.setDirections(response);
+				}
+			});
+
+			gm.event.addListener(directionsDisplay, 'directions_changed', function() {
+				var directions = directionsDisplay.getDirections();
+				console.log("directions",directions);
+				app.trigger('routeChange', directions);
+			});
 
 		}
 

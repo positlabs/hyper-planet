@@ -4,19 +4,19 @@ body, html{
 }
 
 #map-container{
+	position: absolute;
 	width: 100%;
 	height: 100%;
-
-	#pano-div{
-		position: absolute;
-		right: 0;
-		width: 50%;
-		height: 100%;
-	}
+	z-index: 1;
 	#map-div{
 		position: absolute;
 		left: 0;
 		width: 50%;
 		height: 100%;
 	}
+}
+
+#stereo-projection{
+	position:absolute;
+	left: 25%;
 }

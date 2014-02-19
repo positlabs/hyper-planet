@@ -8,7 +8,7 @@ define(function (require) {
 	var sv = new gm.StreetViewService();
 
 	//TODO: set zoom (quality) somewhere
-	var zoom = 3;
+	var zoom = 2;
 
 	var Panorama = function (latLng) {
 		console.log("Panorama." + "Panorama()", arguments);
@@ -84,6 +84,7 @@ define(function (require) {
 			//			});
 			//			document.body.appendChild(outCanvas);
 
+			this.canvas = outCanvas;
 			this.trigger("load", outCanvas);
 		}
 

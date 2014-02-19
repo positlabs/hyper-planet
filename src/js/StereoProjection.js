@@ -2,11 +2,13 @@ define(function (require) {
 
 	var StereoProjectionShader = require('StereoProjectionShader');
 
+	var shaderPass, composer;
+
 	var StereoProjection = {
 
-		init: function (parentEl, panoCanvas) {
+		init: function (parentEl) {
 
-			var composer, renderer, scene, camera, plane,
+			var renderer, scene, camera, plane,
 					width = window.innerWidth,
 					height = window.innerHeight,
 					near = -.1,
@@ -18,6 +20,8 @@ define(function (require) {
 			camera = new THREE.OrthographicCamera(width / -2, width / 2, height / 2, height / -2, near, far);
 			scene.add(camera);
 
+			// TODO - remove this. only use for debugging.
+			renderer.domElement.id = "stereo-projection";
 			parentEl.appendChild(renderer.domElement);
 
 			plane = new THREE.Mesh(new THREE.PlaneGeometry(width, height, 1, 1));
@@ -26,13 +30,8 @@ define(function (require) {
 			composer = new THREE.EffectComposer(renderer);
 			composer.addPass(new THREE.RenderPass(scene, camera));
 
-			var effect = new THREE.ShaderPass(StereoProjectionShader);
+			shaderPass = new THREE.ShaderPass(StereoProjectionShader);
 //			effect.uniforms.texture.value = THREE.ImageUtils.loadTexture('images/test3.jpg');
-			var texture = new THREE.Texture(panoCanvas);
-			texture.needsUpdate = true;
-			effect.uniforms.texture.value = texture;
-			effect.renderToScreen = true;
-			composer.addPass(effect);
 
 			/*
 
@@ -51,12 +50,19 @@ define(function (require) {
 			ox.FrameImpulse.start();
 			 */
 
-//			setTimeout(function(){
-				effect.uniforms.scale.value = 9;
-				effect.uniforms.aspect.value = window.innerHeight / window.innerWidth;
-				composer.render();
-//			}, 1);
+		},
+		render:function(textureCanvas){
 
+			var texture = new THREE.Texture(textureCanvas);
+			texture.needsUpdate = true;
+			shaderPass.renderToScreen = true;
+			shaderPass.uniforms.texture.value = texture;
+			shaderPass.uniforms.scale.value = 9;
+			shaderPass.uniforms.aspect.value = window.innerHeight / window.innerWidth;
+			composer.addPass(shaderPass);
+			composer.render();
+
+			//TODO: what do we output? texture? image data?
 		}
 
 
