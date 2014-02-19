@@ -6,9 +6,9 @@ define(function (require) {
 			var mapDiv = ox.create('div');
 			mapDiv.id = 'map-div';
 			parentEl.appendChild(mapDiv);
-			var panoDiv = ox.create('div');
-			panoDiv.id = 'pano-div';
-			parentEl.appendChild(panoDiv);
+//			var panoDiv = ox.create('div');
+//			panoDiv.id = 'pano-div';
+//			parentEl.appendChild(panoDiv);
 
 			var gm = google.maps;
 
@@ -24,18 +24,17 @@ define(function (require) {
 			};
 
 			this.map = new gm.Map(mapDiv, mapOptions);
-			var panoramaOptions = {
-				position: berkeley,
-				pov: {
-					heading: 34,
-					pitch: 10
-				}
-			};
-
-			//TODO: make panorama into its own module
-			this.panorama = new gm.StreetViewPanorama(panoDiv, panoramaOptions);
-			this.map.setStreetView(this.panorama);
-			window.pano = this.panorama; // for debugging only
+//			var panoramaOptions = {
+//				position: berkeley,
+//				pov: {
+//					heading: 34,
+//					pitch: 10
+//				}
+//			};
+//
+//			this.panorama = new gm.StreetViewPanorama(panoDiv, panoramaOptions);
+//			this.map.setStreetView(this.panorama);
+//			window.pano = this.panorama; // for debugging only
 
 		}
 

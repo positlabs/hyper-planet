@@ -4,7 +4,7 @@ define(function (require) {
 
 	var StereoProjection = {
 
-		init: function (parentEl) {
+		init: function (parentEl, panoCanvas) {
 
 			var composer, renderer, scene, camera, plane,
 					width = window.innerWidth,
@@ -27,9 +27,14 @@ define(function (require) {
 			composer.addPass(new THREE.RenderPass(scene, camera));
 
 			var effect = new THREE.ShaderPass(StereoProjectionShader);
-			effect.uniforms.texture.value = THREE.ImageUtils.loadTexture('images/test3.jpg');
+//			effect.uniforms.texture.value = THREE.ImageUtils.loadTexture('images/test3.jpg');
+			var texture = new THREE.Texture(panoCanvas);
+			texture.needsUpdate = true;
+			effect.uniforms.texture.value = texture;
 			effect.renderToScreen = true;
 			composer.addPass(effect);
+
+			/*
 
 			var start_time = Date.now();
 			ox.FrameImpulse.on('frame', function () {
@@ -44,7 +49,13 @@ define(function (require) {
 				composer.render();
 			});
 			ox.FrameImpulse.start();
+			 */
 
+//			setTimeout(function(){
+				effect.uniforms.scale.value = 9;
+				effect.uniforms.aspect.value = window.innerHeight / window.innerWidth;
+				composer.render();
+//			}, 1);
 
 		}
 

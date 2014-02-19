@@ -21,11 +21,19 @@ define(function (require) {
 			return [ this.pano, this.zoom, this.x, this.y ].join(",");
 		},
 		getUrl: function () {
-			return "http://cbk" + randInt(4) + ".google.com/cbk?output=tile" +
+
+			var imgUrl = "http://cbk" + randInt(4) + ".google.com/cbk?output=tile" +
 					"&panoid=" + this.pano +
 					"&zoom=" + this.zoom.toFixed() +
 					"&x=" + this.x.toFixed() +
 					"&y=" + this.y.toFixed();
+
+			// have to use a proxy to get around canvas.toDataUrl crossdomain restriction.
+//			var proxyUrl = "img_proxy.php?pic=images/test.jpg";
+//			var proxyUrl = "img_proxy.php?pic=" + imgUrl;
+//			var proxyUrl = "img_proxy.php?pic=" + "http://oscarmassivehands.files.wordpress.com/2011/11/vertstrechhnds.png";
+//			return proxyUrl;
+			return imgUrl;
 		}
 	};
 
