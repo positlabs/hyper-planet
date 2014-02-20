@@ -6,7 +6,7 @@ define(function (require) {
 
 	var MapView = {
 
-		init: function (parentEl, startLatLng, endLatLng) {
+		init: function (parentEl) {
 			var mapDiv = ox.create('div');
 			mapDiv.id = 'map-div';
 			parentEl.appendChild(mapDiv);
@@ -14,7 +14,6 @@ define(function (require) {
 			var gm = google.maps;
 
 			var mapOptions = {
-				center: startLatLng,
 				zoom: 14,
 				mapTypeControlOptions: {
 					mapTypeIds: [ gm.MapTypeId.ROADMAP, gm.MapTypeId.HYBRID]
@@ -27,34 +26,30 @@ define(function (require) {
 			this.map = new gm.Map(mapDiv, mapOptions);
 			directionsDisplay.setMap(this.map);
 
-
-			// https://developers.google.com/maps/documentation/javascript/reference#PolylineOptions
-//			var polyLine = new gm.Polyline({
-//				path:[startLatLng, endLatLng],
-//				map:this.map,
-//				editable:true
-//			});
-//			console.log("polyLine",polyLine);
-
-
-			var request = {
-				origin: 'Sydney, NSW',
-				destination: 'North Sydney, NSW',
-				travelMode: gm.TravelMode.DRIVING
-			};
-			directionsService.route(request, function (response, status) {
-				if (status == gm.DirectionsStatus.OK) {
-					console.log("response", response);
-					directionsDisplay.setDirections(response);
-				}
-			});
-
 			gm.event.addListener(directionsDisplay, 'directions_changed', function() {
 				var directions = directionsDisplay.getDirections();
 				console.log("directions",directions);
 				app.trigger('routeChange', directions);
 			});
 
+			app.on("newRoute", function(){
+				// take route off the map until a new one is set
+				directionsDisplay.setMap(undefined);
+			});
+
+		},
+
+		setRoute:function(origin, destination){
+			var request = {
+				origin: origin,
+				destination: destination,
+				travelMode: gm.TravelMode.DRIVING
+			};
+			directionsService.route(request, function (response, status) {
+				if (status == gm.DirectionsStatus.OK) {
+					directionsDisplay.setDirections(response);
+				}
+			});
 		}
 
 	};

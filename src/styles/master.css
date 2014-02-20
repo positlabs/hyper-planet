@@ -2,6 +2,8 @@ body,
 html {
   padding: 0;
   margin: 0;
+  width: 100%;
+  overflow: hidden;
 }
 #map-container {
   position: absolute;
@@ -12,10 +14,28 @@ html {
 #map-container #map-div {
   position: absolute;
   left: 0;
-  width: 50%;
+  width: 30%;
   height: 100%;
 }
 #stereo-projection {
+  z-index: -1;
   position: absolute;
-  left: 25%;
+  left: 20%;
+}
+#loader-view {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+}
+#play-btn {
+  text-transform: uppercase;
+  font-size: 24px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  z-index: 100;
+}
+#play-btn:hover {
+  text-decoration: underline;
 }

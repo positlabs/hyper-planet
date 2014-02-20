@@ -1,22 +1,44 @@
-body, html{
+body, html {
 	padding: 0;
 	margin: 0;
+	width: 100%;
+	overflow: hidden;
 }
 
-#map-container{
+#map-container {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	z-index: 1;
-	#map-div{
+	#map-div {
 		position: absolute;
 		left: 0;
-		width: 50%;
+		width: 30%;
 		height: 100%;
 	}
 }
 
-#stereo-projection{
+#stereo-projection {
+	z-index: -1;
+	position: absolute;
+	left: 20%;
+}
+
+#loader-view{
 	position:absolute;
-	left: 25%;
+	top: 50px;
+	right: 10px;
+}
+
+#play-btn{
+	text-transform: uppercase;
+	font-size: 24px;
+	position:absolute;
+	right: 10px;
+	top: 10px;
+	&:hover{
+		text-decoration: underline;
+	}
+	cursor:pointer;
+	z-index: 100;
 }

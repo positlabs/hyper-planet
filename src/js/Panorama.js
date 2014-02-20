@@ -7,11 +7,10 @@ define(function (require) {
 	var gm = google.maps;
 	var sv = new gm.StreetViewService();
 
-	//TODO: set zoom (quality) somewhere
-	var zoom = 2;
+	var quality = 1;
 
 	var Panorama = function (latLng) {
-		console.log("Panorama." + "Panorama()", arguments);
+//		console.log("Panorama." + "Panorama()", arguments);
 		new ox.Events(this);
 		this.latLng = latLng;
 		this.tiles = [];
@@ -22,13 +21,13 @@ define(function (require) {
 
 	Panorama.prototype = {
 		load: function () {
-			console.log("Panorama." + "load()", arguments);
+//			console.log("Panorama." + "load()", arguments);
 			PanoLoader.once("load", this.assembleImage);
 			PanoLoader.loadByLocation(this.latLng);
 		},
 
 		assembleImage: function (e) {
-			console.log("Panorama." + "assembleImage()", arguments);
+//			console.log("Panorama." + "assembleImage()", arguments);
 			this.tiles = e.tiles;
 			this.data = e.data;
 			this.id = e.id;
@@ -57,14 +56,15 @@ define(function (require) {
 			while (hitColorPixel == false) {
 				var pixel = getPixel(imageData, canvas.width * .5, canvas.height - blackBarHeight - 1);
 				if (getPixelValue(pixel) == 0) {
-					// just check every 4th pixel for performance reasons
-					blackBarHeight += 4;
+					// just check every 3rd pixel for performance reasons
+					blackBarHeight += 3;
 				} else {
 					hitColorPixel = true;
 				}
 			}
 
-			// subtract 2x blackpixel from width, 1x from height
+			// note: this is a hack because we don't know how big the actual pano is...
+			// subtract 2x blackBarHeight from width, 1x from height
 			// rotate canvas 108deg, crop out what we don't need
 			var outCanvas = ox.create('canvas');
 			outCanvas.width = canvas.width - blackBarHeight * 2;
@@ -118,25 +118,25 @@ define(function (require) {
 		},
 
 		loadByLocation: function (latLng) {
-			console.log("PanoLoader." + "loadByLocation()", arguments);
+//			console.log("PanoLoader." + "loadByLocation()", arguments);
 			sv.getPanoramaByLocation(latLng, 50, window.processSVData);
 		},
 
 		processPanoData: function (panoData) {
-			console.log("PanoLoader." + "processPanoData()", arguments);
+//			console.log("PanoLoader." + "processPanoData()", arguments);
 
 			var panoTiles = panoData.tiles;
 
 			var aspectRatio = panoTiles.worldSize.height / panoTiles.worldSize.width;
 
-			var tilesX = Math.ceil(26 / Math.pow(2, 5 - zoom));
+			var tilesX = Math.ceil(26 / Math.pow(2, 5 - quality));
 			var tilesY = Math.ceil(tilesX * aspectRatio);
 			var panoId = panoData.location.pano;
 
 			var tiles = [];
 			for (var y = 0; y < tilesY; y++) {
 				for (var x = 0; x < tilesX; x++) {
-					var tile = new Tile(panoId, panoData.location.latLng, zoom, x, y);
+					var tile = new Tile(panoId, panoData.location.latLng, quality, x, y);
 					tiles.push(tile);
 				}
 			}
@@ -146,7 +146,7 @@ define(function (require) {
 			var toLoad = queue.length;
 
 			function loadTiles() {
-				console.log("loadTiles." + "loadTiles()", arguments);
+//				console.log("loadTiles." + "loadTiles()", arguments);
 
 				while (loading.length < 4 && queue.length > 0) {
 

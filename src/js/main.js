@@ -1,50 +1,23 @@
 define(["require_config"], function () {
 
+	// TODO: route interpolation
+	//TODO: preloader gif
+	//TODO: new route button
+
+	//TODO: get api key and use for Tile urls
 
 	require([
-		'StereoProjection',
-		'MapView',
-		'Panorama',
-		'TilePreview',
+		'app',
 		'three',
 		'bower/ox/ox',
 		'three.CopyShader',
 		'three.ShaderPass',
 		'three.RenderPass',
 		'three.EffectComposer',
-		'three.RGBShiftShader',
-		'three.DotScreenPass',
-		'three.MaskPass',
-		'three.DotScreenShader'
-	], function (StereoProjection, MapView, Panorama, TilePreview) {
+		'three.MaskPass'
+	], function (app) {
 
-		var gm = google.maps;
-		window.app = new ox.Events();
-
-		var berkeley = new gm.LatLng(37.869085, -122.254775);
-		var LA = new gm.LatLng(34.04926,-118.24896);
-		var santamonicaPier = new gm.LatLng(34.00908,-118.49739);
-
-		var hwy1start = new gm.LatLng(34.47360,-120.20339);
-		var hwy1end = new gm.LatLng(34.47399,-120.13602);
-
-		var latLngStart = hwy1start;
-		var latLngEnd = hwy1end;
-
-		MapView.init(ox("#map-container"), latLngStart, latLngEnd);
-		StereoProjection.init(document.body);
-
-		app.on("routeChange", function(directions){
-			var pano = new Panorama(directions.routes[0].overview_path[0]);
-			pano.on('load', function (panoCanvas) {
-				console.log('pano loaded!');
-				StereoProjection.render(panoCanvas);
-				// new TilePreview(pano.tiles);
-			});
-			pano.load();
-		});
-
-
+		app.init();
 
 	});
 });
