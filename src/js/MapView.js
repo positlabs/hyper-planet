@@ -7,6 +7,7 @@ define(function (require) {
 	var MapView = {
 
 		init: function (parentEl) {
+			var _this = this;
 			var mapDiv = ox.create('div');
 			mapDiv.id = 'map-div';
 			parentEl.appendChild(mapDiv);
@@ -19,40 +20,64 @@ define(function (require) {
 					mapTypeIds: [ gm.MapTypeId.ROADMAP, gm.MapTypeId.HYBRID]
 				},
 				mapTypeId: gm.MapTypeId.HYBRID,
-				streetViewControl:false,
-				panControl:false
+				streetViewControl: false,
+				panControl: false,
+				zoomControl: false
 			};
 
 			this.map = new gm.Map(mapDiv, mapOptions);
+
+			gm.event.addListener(this.map, 'click', function (e) {
+				_this.setRoute(e.latLng, new gm.LatLng(e.latLng.d + rand(.002), e.latLng.e + rand(.002) ));
+			});
+
 			directionsDisplay.setMap(this.map);
 
-			gm.event.addListener(directionsDisplay, 'directions_changed', function() {
+			gm.event.addListener(directionsDisplay, 'directions_changed', function () {
 				var directions = directionsDisplay.getDirections();
-				console.log("directions",directions);
+				console.log("directions", directions);
 				app.trigger('routeChange', directions);
 			});
 
-			app.on("newRoute", function(){
-				// take route off the map until a new one is set
-				directionsDisplay.setMap(undefined);
-			});
+			this.onParamChange = _.bind(this.onParamChange, this);
+			app.on("change:params", this.onParamChange);
 
 		},
+		onParamChange:function(params){
+			var o = params.o,
+					d = params.d;
+			if(o && d){
+				this.setRoute(o, d, true);
+			}else if(o && d == undefined){
+				this.setRoute(o, o, true);
+			}
+		},
 
-		setRoute:function(origin, destination){
+		setRoute: function (origin, destination, autoZoom) {
+			var _this = this;
 			var request = {
 				origin: origin,
 				destination: destination,
 				travelMode: gm.TravelMode.DRIVING
 			};
+			var mapZoom = this.map.getZoom();
 			directionsService.route(request, function (response, status) {
 				if (status == gm.DirectionsStatus.OK) {
 					directionsDisplay.setDirections(response);
+					if(!autoZoom){
+						setTimeout(function(){
+							_this.map.setZoom(mapZoom);
+						}, 1);
+					}
 				}
 			});
 		}
 
 	};
+
+	function rand(range) {
+		return Math.random() * range - range * .5;
+	}
 
 	return MapView;
 

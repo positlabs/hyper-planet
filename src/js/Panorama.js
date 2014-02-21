@@ -11,23 +11,29 @@ define(function (require) {
 
 	var Panorama = function (latLng) {
 //		console.log("Panorama." + "Panorama()", arguments);
+
 		new ox.Events(this);
+
 		this.latLng = latLng;
 		this.tiles = [];
-		this.img = ox.create("img");// maybe this should just be stored as base64 dataUrl
 
 		this.assembleImage = _.bind(this.assembleImage, this);
+		this.onLoadFailed = _.bind(this.onLoadFailed, this);
+
 	};
 
 	Panorama.prototype = {
 		load: function () {
-//			console.log("Panorama." + "load()", arguments);
+			//			console.log("Panorama." + "load()", arguments);
 			PanoLoader.once("load", this.assembleImage);
+			PanoLoader.once("loadFailed", this.onLoadFailed);
 			PanoLoader.loadByLocation(this.latLng);
 		},
-
+		onLoadFailed:function(){
+			this.trigger("load");
+		},
 		assembleImage: function (e) {
-//			console.log("Panorama." + "assembleImage()", arguments);
+			//			console.log("Panorama." + "assembleImage()", arguments);
 			this.tiles = e.tiles;
 			this.data = e.data;
 			this.id = e.id;
@@ -64,6 +70,7 @@ define(function (require) {
 			}
 
 			// note: this is a hack because we don't know how big the actual pano is...
+			// there is sometimes a black bar on the bottom and right of the image
 			// subtract 2x blackBarHeight from width, 1x from height
 			// rotate canvas 108deg, crop out what we don't need
 			var outCanvas = ox.create('canvas');
@@ -118,12 +125,12 @@ define(function (require) {
 		},
 
 		loadByLocation: function (latLng) {
-//			console.log("PanoLoader." + "loadByLocation()", arguments);
+			//			console.log("PanoLoader." + "loadByLocation()", arguments);
 			sv.getPanoramaByLocation(latLng, 50, window.processSVData);
 		},
 
 		processPanoData: function (panoData) {
-//			console.log("PanoLoader." + "processPanoData()", arguments);
+			//			console.log("PanoLoader." + "processPanoData()", arguments);
 
 			var panoTiles = panoData.tiles;
 
@@ -146,7 +153,7 @@ define(function (require) {
 			var toLoad = queue.length;
 
 			function loadTiles() {
-//				console.log("loadTiles." + "loadTiles()", arguments);
+				//				console.log("loadTiles." + "loadTiles()", arguments);
 
 				while (loading.length < 4 && queue.length > 0) {
 
@@ -188,15 +195,22 @@ define(function (require) {
 
 	});
 
+	Panorama.onParamChange = function(params){
+		console.log("onParamChange."+"onParamChange()", arguments);
+		if(params.q != undefined){
+			quality = parseInt(params.q);
+		}
+	};
+
 	// needs to be global scope because it's a jsonp callback
 	window.processSVData = function (data, status) {
 		if (status == gm.StreetViewStatus.OK) {
 			PanoLoader.processPanoData(data);
 		} else {
-			alert('Street View data not found for this location.');
+			console.log('Street View data not found for this location.', status, data);
+			PanoLoader.trigger("loadFailed");
 		}
 	};
-
 
 	return Panorama;
 

@@ -1,10 +1,9 @@
 define(["require_config"], function () {
 
-	// TODO: route interpolation
-	//TODO: preloader gif
-	//TODO: new route button
-
-	//TODO: get api key and use for Tile urls
+	// TODO: route interpolation (maybe)
+	// TODO: preloader gif
+	// TODO: key controls for stepping through sequence
+	// TODO: map marker showing current position
 
 	require([
 		'app',

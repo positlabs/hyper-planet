@@ -8,7 +8,12 @@ define(function (require) {
 		document.body.appendChild(div);
 
 		app.on('loadProgress', function(percent){
+			div.style.opacity = 1;
 			div.innerHTML = "loaded " + percent + "%";
+		});
+
+		app.on('routeChange', function(){
+			div.style.opacity = 0;
 		});
 
 	};

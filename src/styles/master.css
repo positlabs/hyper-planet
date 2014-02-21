@@ -10,6 +10,14 @@ html {
   width: 100%;
   height: 100%;
   z-index: 1;
+  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
 }
 #map-container #map-div {
   position: absolute;
@@ -17,10 +25,37 @@ html {
   width: 30%;
   height: 100%;
 }
+.state-map #map-container {
+  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  transform: translateX(-30%);
+  -webkit-transform: translateX(-30%);
+  -moz-transform: translateX(-30%);
+  -ms-transform: translateX(-30%);
+}
 #stereo-projection {
   z-index: -1;
   position: absolute;
-  left: 20%;
+  transform: translateX(15%);
+  -webkit-transform: translateX(15%);
+  -moz-transform: translateX(15%);
+  -ms-transform: translateX(15%);
+  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+}
+.state-map #stereo-projection {
+  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
 }
 #loader-view {
   position: absolute;
@@ -38,4 +73,16 @@ html {
 }
 #play-btn:hover {
   text-decoration: underline;
+}
+#map-toggle-button {
+  position: absolute;
+  z-index: 100;
+  top: 10px;
+  left: 10px;
+  background: white;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 10px;
 }

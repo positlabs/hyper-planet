@@ -1,0 +1,51 @@
+
+@ease-out-ex: cubic-bezier(.15, .75, .49, .93);
+
+.coverbg (@url) {
+	background: url(@url) no-repeat center center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.box-shadow (@params) {
+	-moz-box-shadow: @params;
+	-webkit-box-shadow: @params;
+	-ms-box-shadow: @params;
+	box-shadow: @params;
+}
+
+.transition (@params) {
+	transition: @params;
+	-webkit-transition: @params;
+	-moz-transition: @params;
+	-ms-transition: @params;
+}
+
+.transform (@params) {
+	transform: @params;
+	-webkit-transform: @params;
+	-moz-transform: @params;
+	-ms-transform: @params;
+}
+
+.transform-origin (@params) {
+	transform-origin: @params;
+	-webkit-transform-origin: @params;
+	-moz-transform-origin: @params;
+	-ms-transform-origin: @params;
+}
+
+.backface-visibility (@value) {
+	backface-visibility: @value;
+	-webkit-backface-visibility: @value;
+	-moz-backface-visibility: @value;
+	-ms-backface-visibility: @value;
+}
+
+.user-select(@val) {
+	-webkit-user-select: @val;
+	-moz-user-select: @val;
+	-ms-user-select: @val;
+}

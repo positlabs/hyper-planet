@@ -72,19 +72,40 @@ define(function (require) {
 		onResize: function () {
 			//TODO
 		},
-		playTextureSequence: function (textureSequence) {
-//			console.log("StereoProjectionView."+"playTextureSequence()", arguments);
-			var _this = this;
-			var currentFrame = 0;
-			var animInterval = setInterval(function () {
-				if (currentFrame > textureSequence.textures.length) {
-					clearInterval(animInterval);
-				}
-				_this.setTexture(textureSequence.textures[currentFrame]);
-				currentFrame++;
-			}, 1000 / 6);
-		}
+		play: function (textureSequence) {
+			console.log("StereoProjectionView."+"play()", arguments);
+			if (this.playing) {
+				// restart!
+				this.currentFrame = 0;
+			} else {
 
+				this.textures = textureSequence.textures;
+//			console.log("StereoProjectionView."+"playTextureSequence()", arguments);
+				var _this = this;
+				this.playing = true;
+				this.currentFrame = 0;
+				this.animInterval = setInterval(function () {
+					if (_this.currentFrame > textureSequence.textures.length) {
+						clearInterval(_this.animInterval);
+						_this.playing = false;
+					}
+					_this.setTexture(textureSequence.textures[_this.currentFrame]);
+					_this.currentFrame++;
+				}, 1000 / 10);
+			}
+		},
+		pause: function () {
+			this.playing = false;
+			if(this.animInterval){
+				clearInterval(this.animInterval);
+			}
+		},
+		scrub: function (delta) {
+			this.currentFrame += delta;
+			this.currentFrame = Math.min(this.currentFrame, this.textures.length - 1);
+			this.currentFrame = Math.max(this.currentFrame, 0);
+			this.setTexture(this.textures[this.currentFrame]);
+		}
 
 	};
 
