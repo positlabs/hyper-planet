@@ -54,7 +54,7 @@ define(function (require) {
 
 			var delta = -e.deltaY / 40;
 			shaderPass.uniforms.scale.value += delta;
-			shaderPass.uniforms.scale.value = Math.min(17, shaderPass.uniforms.scale.value);
+			shaderPass.uniforms.scale.value = Math.min(20, shaderPass.uniforms.scale.value);
 			shaderPass.uniforms.scale.value = Math.max(3, shaderPass.uniforms.scale.value);
 
 		},
@@ -86,8 +86,7 @@ define(function (require) {
 				this.currentFrame = 0;
 				this.animInterval = setInterval(function () {
 					if (_this.currentFrame > textureSequence.textures.length) {
-						clearInterval(_this.animInterval);
-						_this.playing = false;
+						_this.currentFrame = 0;
 					}
 					_this.setTexture(textureSequence.textures[_this.currentFrame]);
 					_this.currentFrame++;

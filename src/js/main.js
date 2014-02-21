@@ -5,6 +5,8 @@ define(["require_config"], function () {
 	// TODO: key controls for stepping through sequence
 	// TODO: map marker showing current position
 
+	//TODO: loop after pressing play
+
 	require([
 		'app',
 		'three',
