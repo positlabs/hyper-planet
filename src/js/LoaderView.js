@@ -1,11 +1,12 @@
 define(function (require) {
 
-	var LoaderView = function(){
+	var LoaderView = function(element){
 
 		var div = ox.create('div');
 		div.id = "loader-view";
+		div.className = "ui";
 
-		document.body.appendChild(div);
+		element.appendChild(div);
 
 		app.on('loadProgress', function(percent){
 			div.style.opacity = 1;

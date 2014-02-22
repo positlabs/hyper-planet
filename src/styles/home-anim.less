@@ -1,0 +1,80 @@
+@import url("mixins.less");
+
+.home-logo-in() {
+
+	0% {
+		opacity: 0;
+		.transform(rotate3d(-0.4, 1, 0.2, -90deg) scale(1.2, 1.2));
+	}
+
+	20% {
+		opacity: 1;
+	}
+
+	100% {
+		.transform(rotate3d(-0.4, 1, 0.2, 0) scale(1, 1));
+	}
+}
+
+@-webkit-keyframes home-logo-in { .home-logo-in(); }
+@-moz-keyframes home-logo-in { .home-logo-in(); }
+@-ms-keyframes home-logo-in { .home-logo-in(); }
+
+.home-block-in() {
+	0% {
+		width: 0px;
+	}
+
+	20% {
+		width: 106px;
+	}
+
+	100% {
+		width: 36px;
+	}
+}
+
+@-webkit-keyframes home-block-in { .home-block-in(); }
+@-moz-keyframes home-block-in { .home-block-in(); }
+@-ms-keyframes home-block-in { .home-block-in(); }
+
+.home-line-in() {
+	0% {
+		opacity: 0;
+		.transform(translateX(-30px));
+	}
+
+	80% {
+		opacity: 1;
+	}
+
+	100% {
+		.transform(translateX(0));
+	}
+}
+
+@-webkit-keyframes home-line-in { .home-line-in(); }
+@-moz-keyframes home-line-in { .home-line-in(); }
+@-ms-keyframes home-line-in { .home-line-in(); }
+
+.home-button-in() {
+
+	0% {
+		opacity: 0;
+		background-color: #fff;
+	}
+
+	60% {
+		opacity: 1;
+		background-color: #fff;
+		clip: rect(0px, 210px, 0px, 0px);
+	}
+
+	100% {
+		background-color: none;
+	}
+}
+
+@-webkit-keyframes home-button-in { .home-button-in(); }
+@-moz-keyframes home-button-in { .home-button-in(); }
+@-ms-keyframes home-button-in { .home-button-in(); }

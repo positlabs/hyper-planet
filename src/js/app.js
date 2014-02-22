@@ -3,6 +3,7 @@ define(function (require) {
 	var StereoProjectionView = require('StereoProjectionView');
 	var MapView = require('MapView');
 	var UI = require('UI');
+	var SplashView = require('SplashView');
 
 	var Panorama = require('Panorama');
 	var TilePreview = require('TilePreview');
@@ -13,10 +14,14 @@ define(function (require) {
 		init: function () {
 			new ox.Events(this);
 
+			SplashView.init(ox('#splash-container'));
+			MapView.init(ox('#map-container'));
+			StereoProjectionView.init(ox('#experiment-container'));
+			UI.init(ox('#experiment-container'));
+			Params.init();
+
 			var route = []; // array of latLngs
 			var txseq = new TextureSequence();
-
-			MapView.init(ox('#map-container'));
 
 			// set to default if not set from query params
 			var o = 'Fort Bragg, CA',
@@ -25,10 +30,7 @@ define(function (require) {
 				MapView.setRoute(o, d, true);
 			}
 
-			StereoProjectionView.init(document.body);
-
 			app.on("change:params", Panorama.onParamChange);
-			Params.init();
 
 			// map route changed
 			app.on("routeChange", function (directions) {
@@ -56,7 +58,6 @@ define(function (require) {
 
 			});
 
-
 			app.on('play', function () {
 
 				if(txseq && txseq.loading) return; // can't play yet
@@ -74,8 +75,6 @@ define(function (require) {
 				}
 
 			});
-
-			UI.init();
 
 		}
 	};
