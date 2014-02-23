@@ -16,11 +16,11 @@ define(function (require) {
 			};
 			element.appendChild(playBtn);
 
-			var mapToggleBtn = ox.create("div", "<< Map");
+			var mapToggleBtn = ox.create("div", "Hide Map");
 			mapToggleBtn.id = "map-toggle-button";
 			mapToggleBtn.className = 'ui';
 			mapToggleBtn.onclick = function(){
-				this.innerText = document.body.classList.contains('state-map') ? "<< Map" : "Map >>";
+				this.innerHTML = !document.body.classList.contains('state-map') ? "Hide Map" : "Show Map";
 				document.body.classList.toggle('state-map');
 			};
 			element.appendChild(mapToggleBtn);

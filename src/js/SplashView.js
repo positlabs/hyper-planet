@@ -8,6 +8,7 @@ define(function (require) {
 				setTimeout(function(){
 					document.body.classList.remove("state-splash");
 					document.body.classList.add("state-map");
+					document.body.classList.add("state-experiment");
 				}, 2000);
 			});
 

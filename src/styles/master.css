@@ -242,15 +242,19 @@
   }
 }
 #splash-container {
-  background: rgba(0, 0, 0, 0.9);
   position: absolute;
   z-index: 1000;
   width: 100%;
   height: 100%;
+  background: url("../images/eco_lapse_bg.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   /***************** 800 h ************************/
   /***************** 1050 h ************************/
 }
-.state-map #splash-container {
+.state-experiment #splash-container {
   display: none;
 }
 #splash-container.hidden {
@@ -554,15 +558,20 @@ html {
   width: 100%;
   height: 100%;
 }
+#experiment-container #corner-logo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 #experiment-container #map-container {
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 1;
-  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   transform: translateX(-30%);
   -webkit-transform: translateX(-30%);
   -moz-transform: translateX(-30%);
@@ -575,10 +584,10 @@ html {
   height: 100%;
 }
 .state-map #experiment-container #map-container {
-  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   transform: translateX(0);
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
@@ -591,16 +600,16 @@ html {
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);
-  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
 }
 .state-map #experiment-container #stereo-projection {
-  transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -webkit-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -moz-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  -ms-transition: all 0.3s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   transform: translateX(15%);
   -webkit-transform: translateX(15%);
   -moz-transform: translateX(15%);
@@ -608,6 +617,7 @@ html {
 }
 #experiment-container .ui {
   display: block;
+  z-index: 100;
 }
 .state-splash #experiment-container .ui {
   display: none;
@@ -624,20 +634,19 @@ html {
   right: 10px;
   top: 10px;
   cursor: pointer;
-  z-index: 100;
 }
 #experiment-container .ui#play-btn:hover {
   text-decoration: underline;
 }
 #experiment-container .ui#map-toggle-button {
   position: absolute;
-  z-index: 100;
-  top: 10px;
-  left: 10px;
+  top: 6px;
+  left: 6px;
+  padding: 2px 4px;
   background: white;
-  color: black;
-  padding: 10px;
   cursor: pointer;
-  text-transform: uppercase;
-  font-size: 10px;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  color: black;
 }

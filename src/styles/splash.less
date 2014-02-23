@@ -3,12 +3,13 @@
 @import url(home-anim.less);
 
 #splash-container {
-	background: rgba(0, 0, 0, .9);
 	position: absolute;
 	z-index: 1000;
 	.fullwindow();
 
-	.state-map &{
+	.coverbg("../images/eco_lapse_bg.jpg");
+
+	.state-experiment &{
 		display: none;
 	}
 	&.hidden {
