@@ -3,7 +3,11 @@ define(function (require) {
 	var StereoProjectionShader = require('StereoProjectionShader');
 	var VirtualScroll = require('VirtualScroll');
 
-	var shaderPass, composer;
+	var shaderPass,
+			composer,
+			renderer,
+			camera,
+			plane;
 
 	var defaultZoom = 9;
 
@@ -13,7 +17,7 @@ define(function (require) {
 
 			var _this = this;
 
-			var renderer, scene, camera, plane,
+			var scene,
 					width = window.innerWidth,
 					height = window.innerHeight,
 					near = -.1,
@@ -28,14 +32,13 @@ define(function (require) {
 			renderer.domElement.id = "stereo-projection";
 			parentEl.appendChild(renderer.domElement);
 
-			plane = new THREE.Mesh(new THREE.PlaneGeometry(width, height, 1, 1));
-			scene.add(plane);
+//			plane = new THREE.Mesh(new THREE.PlaneGeometry(width, height, 1, 1));
+//			scene.add(plane);
 
 			composer = new THREE.EffectComposer(renderer);
 			composer.addPass(new THREE.RenderPass(scene, camera));
 
 			shaderPass = new THREE.ShaderPass(StereoProjectionShader);
-//			effect.uniforms.texture.value = THREE.ImageUtils.loadTexture('images/test3.jpg');
 			shaderPass.renderToScreen = true;
 			shaderPass.uniforms.scale.value = defaultZoom;
 			shaderPass.uniforms.aspect.value = window.innerHeight / window.innerWidth;
@@ -52,11 +55,15 @@ define(function (require) {
 
 			VirtualScroll.on(this.onWheel);
 
+			this.onResize = _.bind(this.onResize, this);
+			window.addEventListener('resize', this.onResize);
+
 			this.pause = _.bind(this.pause, this);
 			app.on('pause', this.pause);
 		},
 		onWheel: function (e) {
 
+			// only allow zoom when timelapse is playing
 			var zoomEnabled = document.body.classList.contains('state-playing');
 			if(zoomEnabled){
 				var delta = -e.deltaY / 40;
@@ -78,7 +85,15 @@ define(function (require) {
 			composer.render();
 		},
 		onResize: function () {
-			//TODO
+			var w = window.innerWidth,
+					h = window.innerHeight;
+			renderer.setSize(w, h);
+//			camera.left = w / -2;
+//			camera.right = w / 2;
+//			camera.top = h / 2;
+//			camera.bottom = h / -2;
+			shaderPass.uniforms.aspect.value = window.innerHeight / window.innerWidth;
+
 		},
 		play: function (textureSequence) {
 			console.log("StereoProjectionView."+"play()", arguments);
