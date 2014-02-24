@@ -12,6 +12,10 @@ body, html {
 	font: @fontTrumpReg;
 }
 
+img, p, span, h1, h6{
+	.user-select(none);
+}
+
 #experiment-container {
 	position: absolute;
 	width: 100%;
@@ -96,10 +100,11 @@ body, html {
 
 			img {
 				position: absolute;
-				left: -532px/2;
-				top: -532px/2;
-				content:url('../images/plexus_rotate_1.2.gif');
+				content: url('../images/450x450.gif');
+				left: -225px;
+				top: -225px;
 			}
+
 			span {
 				position: absolute;
 				display: block;

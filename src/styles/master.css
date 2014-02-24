@@ -246,11 +246,6 @@
   z-index: 1000;
   width: 100%;
   height: 100%;
-  background: url("../images/eco_lapse_bg.jpg") no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   /***************** 800 h ************************/
   /***************** 1050 h ************************/
 }
@@ -553,6 +548,15 @@ html {
   background: black;
   font: "TrumpGothicEastRegular", Arial, Helvetica, sans-serif;
 }
+img,
+p,
+span,
+h1,
+h6 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
 #experiment-container {
   position: absolute;
   width: 100%;
@@ -668,9 +672,9 @@ html {
 }
 #experiment-container .ui#loader-view img {
   position: absolute;
-  left: -266px;
-  top: -266px;
-  content: url('../images/plexus_rotate_1.2.gif');
+  content: url('../images/450x450.gif');
+  left: -225px;
+  top: -225px;
 }
 #experiment-container .ui#loader-view span {
   position: absolute;

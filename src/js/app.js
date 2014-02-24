@@ -44,7 +44,7 @@ define(function (require) {
 				route = directions.routes[0].overview_path;
 
 				// show route starting point
-				var pano = new Panorama(route[0]);
+				var pano = new Panorama(route[0], 3);
 
 				pano.on('load', function (panoCanvas) {
 					if (panoCanvas == undefined) panoCanvas = ox.create('canvas');

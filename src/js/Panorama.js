@@ -7,9 +7,7 @@ define(function (require) {
 	var gm = google.maps;
 	var sv = new gm.StreetViewService();
 
-	var quality = 1;
-
-	var Panorama = function (latLng) {
+	var Panorama = function (latLng, quality) {
 //		console.log("Panorama." + "Panorama()", arguments);
 
 		new ox.Events(this);
@@ -17,10 +15,13 @@ define(function (require) {
 		this.latLng = latLng;
 		this.tiles = [];
 
+		Panorama.quality = quality != undefined ? quality : 1;
+
 		this.assembleImage = _.bind(this.assembleImage, this);
 		this.onLoadFailed = _.bind(this.onLoadFailed, this);
 
 	};
+	Panorama.quality = 1;
 
 	Panorama.prototype = {
 		load: function () {
@@ -136,14 +137,14 @@ define(function (require) {
 
 			var aspectRatio = panoTiles.worldSize.height / panoTiles.worldSize.width;
 
-			var tilesX = Math.ceil(26 / Math.pow(2, 5 - quality));
+			var tilesX = Math.ceil(26 / Math.pow(2, 5 - Panorama.quality));
 			var tilesY = Math.ceil(tilesX * aspectRatio);
 			var panoId = panoData.location.pano;
 
 			var tiles = [];
 			for (var y = 0; y < tilesY; y++) {
 				for (var x = 0; x < tilesX; x++) {
-					var tile = new Tile(panoId, panoData.location.latLng, quality, x, y);
+					var tile = new Tile(panoId, panoData.location.latLng, Panorama.quality, x, y);
 					tiles.push(tile);
 				}
 			}
@@ -198,7 +199,7 @@ define(function (require) {
 	Panorama.onParamChange = function(params){
 		console.log("onParamChange."+"onParamChange()", arguments);
 		if(params.q != undefined){
-			quality = parseInt(params.q);
+			Panorama.quality = parseInt(params.q);
 		}
 	};
 
