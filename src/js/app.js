@@ -16,7 +16,7 @@ define(function (require) {
 
 			SplashView.init(ox('#splash-container'));
 			MapView.init(ox('#map-container'));
-			StereoProjectionView.init(ox('#experiment-container'));
+			StereoProjectionView.init(ox('#projection-container'));
 			UI.init(ox('#experiment-container'));
 			Params.init();
 
@@ -25,8 +25,8 @@ define(function (require) {
 
 			// set to default if not set from query params
 			var o = 'Fort Bragg, CA',
-					d ='Caspar, CA';
-			if(!Params.get('o')){
+					d = 'Caspar, CA';
+			if (!Params.get('o')) {
 				MapView.setRoute(o, d, true);
 			}
 
@@ -36,7 +36,7 @@ define(function (require) {
 			app.on("routeChange", function (directions) {
 
 				// invalidate textureseq since route changed
-				if(txseq){
+				if (txseq) {
 					txseq.destroy();
 					txseq = undefined;
 				}
@@ -47,7 +47,7 @@ define(function (require) {
 				var pano = new Panorama(route[0]);
 
 				pano.on('load', function (panoCanvas) {
-					if(panoCanvas == undefined) panoCanvas = ox.create('canvas');
+					if (panoCanvas == undefined) panoCanvas = ox.create('canvas');
 					var texture = StereoProjectionView.createTexture(panoCanvas);
 					StereoProjectionView.setTexture(texture);
 					StereoProjectionView.render();
@@ -56,17 +56,21 @@ define(function (require) {
 
 				pano.load();
 
+				app.trigger('pause');
+
 			});
 
-			app.on('play', function () {
+			// loading all of the panoramas
+			app.on('load', function () {
+				document.body.classList.add('state-loading');
 
-				if(txseq && txseq.loading) return; // can't play yet
+				if (txseq && txseq.loading) return; // already loading
 
 				if (txseq && txseq.loaded) {
 					// replay the animation
 					StereoProjectionView.play(txseq);
 				} else {
-					if(txseq) txseq.destroy();
+					if (txseq) txseq.destroy();
 					txseq = new TextureSequence();
 					txseq.on('load', function () {
 						StereoProjectionView.play(txseq);
@@ -75,6 +79,17 @@ define(function (require) {
 				}
 
 			});
+
+			app.on('play', function () {
+				document.body.classList.remove('state-loading');
+				document.body.classList.add('state-playing');
+			});
+
+			app.on('pause', function () {
+				document.body.classList.remove('state-loading');
+				document.body.classList.remove('state-playing');
+			});
+
 
 		}
 	};

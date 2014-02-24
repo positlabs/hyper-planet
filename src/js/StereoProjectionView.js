@@ -5,6 +5,8 @@ define(function (require) {
 
 	var shaderPass, composer;
 
+	var defaultZoom = 9;
+
 	var StereoProjectionView = {
 
 		init: function (parentEl) {
@@ -35,7 +37,7 @@ define(function (require) {
 			shaderPass = new THREE.ShaderPass(StereoProjectionShader);
 //			effect.uniforms.texture.value = THREE.ImageUtils.loadTexture('images/test3.jpg');
 			shaderPass.renderToScreen = true;
-			shaderPass.uniforms.scale.value = 9;
+			shaderPass.uniforms.scale.value = defaultZoom;
 			shaderPass.uniforms.aspect.value = window.innerHeight / window.innerWidth;
 			composer.addPass(shaderPass);
 
@@ -49,13 +51,19 @@ define(function (require) {
 			ox.FrameImpulse.start();
 
 			VirtualScroll.on(this.onWheel);
+
+			this.pause = _.bind(this.pause, this);
+			app.on('pause', this.pause);
 		},
 		onWheel: function (e) {
 
-			var delta = -e.deltaY / 40;
-			shaderPass.uniforms.scale.value += delta;
-			shaderPass.uniforms.scale.value = Math.min(20, shaderPass.uniforms.scale.value);
-			shaderPass.uniforms.scale.value = Math.max(3, shaderPass.uniforms.scale.value);
+			var zoomEnabled = document.body.classList.contains('state-playing');
+			if(zoomEnabled){
+				var delta = -e.deltaY / 40;
+				shaderPass.uniforms.scale.value += delta;
+				shaderPass.uniforms.scale.value = Math.min(20, shaderPass.uniforms.scale.value);
+				shaderPass.uniforms.scale.value = Math.max(3, shaderPass.uniforms.scale.value);
+			}
 
 		},
 		createTexture: function (canvas) {
@@ -74,10 +82,13 @@ define(function (require) {
 		},
 		play: function (textureSequence) {
 			console.log("StereoProjectionView."+"play()", arguments);
+			app.trigger('play');
 			if (this.playing) {
 				// restart!
 				this.currentFrame = 0;
 			} else {
+
+				shaderPass.uniforms.scale.value = defaultZoom;
 
 				this.textures = textureSequence.textures;
 //			console.log("StereoProjectionView."+"playTextureSequence()", arguments);
@@ -94,6 +105,7 @@ define(function (require) {
 			}
 		},
 		pause: function () {
+			console.log("StereoProjectionView."+"pause()", arguments);
 			this.playing = false;
 			if(this.animInterval){
 				clearInterval(this.animInterval);

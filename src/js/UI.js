@@ -8,11 +8,11 @@ define(function (require) {
 
 			var loader = new LoaderView(element);
 
-			var playBtn = ox.create("div", 'play');
+			var playBtn = ox.create('div');
 			playBtn.id = 'play-btn';
 			playBtn.className = 'ui';
 			playBtn.onclick = function(){
-				app.trigger("play");
+				app.trigger("load");
 			};
 			element.appendChild(playBtn);
 

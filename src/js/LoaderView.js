@@ -5,12 +5,17 @@ define(function (require) {
 		var div = ox.create('div');
 		div.id = "loader-view";
 		div.className = "ui";
-
 		element.appendChild(div);
+
+		var percentSpan = ox.create('span');
+		div.appendChild(percentSpan);
+
+		var gif = ox.create('img');
+		div.appendChild(gif);
 
 		app.on('loadProgress', function(percent){
 			div.style.opacity = 1;
-			div.innerHTML = "loaded " + percent + "%";
+			percentSpan.innerHTML = percent + "%";
 		});
 
 		app.on('routeChange', function(){

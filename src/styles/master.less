@@ -12,14 +12,12 @@ body, html {
 	font: @fontTrumpReg;
 }
 
-@map-move-duration: .5s;
-
 #experiment-container {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 
-	#corner-logo{
+	#corner-logo {
 		position: absolute;
 		top: 10px;
 		right: 10px;
@@ -37,22 +35,41 @@ body, html {
 			height: 100%;
 		}
 
-		.transition(all @map-move-duration @ease-out-ex);
-		.transform(translateX(-30%));
+		.state-map-transition();
+
+		.transform(translateX(-30.5%));
 		.state-map & {
-			.transition(all @map-move-duration @ease-out-ex);
 			.transform(translateX(0));
 		}
 	}
 
-	#stereo-projection {
-		z-index: -1;
-		position: absolute;
-		.transform(translateX(0));
-		.transition(all @map-move-duration @ease-out-ex);
-		.state-map & {
-			.transition(all @map-move-duration @ease-out-ex);
-			.transform(translateX(15%));
+	#projection-container {
+		width: 100%;
+		height: 100%;
+
+		.black-overlay {
+			width: 100%;
+			height: 100%;
+			background: black;
+			position: absolute;
+			opacity: .85;
+			.transition(opacity .5s);
+			.state-loading & {
+				opacity: 1;
+			}
+			.state-playing & {
+				.transition(opacity .5s);
+				opacity: 0;
+			}
+		}
+		#stereo-projection {
+			z-index: -1;
+			position: absolute;
+			.state-map-transition();
+			.transform(translateX(0));
+			.state-map & {
+				.transform(translateX(15%));
+			}
 		}
 	}
 
@@ -66,27 +83,71 @@ body, html {
 
 		&#loader-view {
 			position: absolute;
-			top: 50px;
-			right: 10px;
+			top: 50%;
+			left: 50%;
+
+			display: none;
+			.state-loading & {
+				display: block;
+			}
+			.state-map & {
+				left: 65%;
+			}
+
+			img {
+				position: absolute;
+				left: -532px/2;
+				top: -532px/2;
+				content:url('../images/plexus_rotate_1.2.gif');
+			}
+			span {
+				position: absolute;
+				display: block;
+				width: 50px;
+				z-index: 10;
+				color: white;
+				font-family: @fontTrumpMed;
+				font-size: 24px;
+				text-transform: uppercase;
+				margin-left: -25px;
+				margin-top: -10px;
+				text-align: center;
+
+			}
+
+			.user-select(none);
 		}
 
 		&#play-btn {
-			text-transform: uppercase;
-			font-size: 24px;
 			position: absolute;
-			right: 10px;
-			top: 10px;
-			&:hover {
-				text-decoration: underline;
-			}
+			top: 50%;
+			width: 100px;
+			height: 123px;
+			margin-left: -25px;
+			margin-top: -61px;
 			cursor: pointer;
+
+			background: url('../images/play_a.png');
+			&:hover {
+				background: url('../images/play_b.png');
+			}
+
+			.state-map-transition();
+			left: 50%;
+			.state-map & {
+				left: 65%;
+			}
+			.state-playing &, .state-loading & {
+				display: none;
+			}
+
 		}
 
 		&#map-toggle-button {
 			position: absolute;
 			top: 6px;
 			left: 6px;
-			padding: 2px 4px;
+			padding: 1px 4px;
 
 			background: white;
 			cursor: pointer;
@@ -96,6 +157,17 @@ body, html {
 			font-size: 11px;
 			color: black;
 
+			border: 1px solid gray;
+			border-radius: 1px;
+		}
+	}
+
+	.state-map-transition() {
+		@map-move-duration: .5s;
+
+		.transition(all @map-move-duration @ease-out-ex);
+		.state-map & {
+			.transition(all @map-move-duration @ease-out-ex);
 		}
 	}
 }

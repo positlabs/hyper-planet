@@ -9,7 +9,7 @@
 
 	.coverbg("../images/eco_lapse_bg.jpg");
 
-	.state-experiment &{
+	.state-experiment & {
 		display: none;
 	}
 	&.hidden {
@@ -264,62 +264,59 @@
 /***************** 1200 h ************************/
 
 @media screen and (min-height:1200px) and (min-width:1400px) {
-	.content {
-		.logo {
+	.logo {
 
-			div:nth-child(1) {
-				.pos(0, -65px);
+		div:nth-child(1) {
+			.pos(0, -65px);
 
-				.white-block {
-					margin-left: 140px - 18px;
-				}
-
-				img {
-					content: url("../images/logo280white.png");
-
-					height: 280px;
-					width: auto;
-					margin: 70px 0 0 0;
-				}
-
-				.white-block:nth-of-type(2) {
-					margin-top: 124px;
-				}
+			.white-block {
+				margin-left: 140px - 18px;
 			}
 
-			div:nth-child(2) {
-				.pos(390px, -140px);
+			img {
+				content: url("../images/logo280white.png");
 
-				h6 {
-					font-size: 28px;
-					margin-bottom: 38px;
-					margin-left: 0px;
-					margin-top: 0px;
-				}
+				height: 280px;
+				width: auto;
+				margin: 70px 0 0 0;
+			}
 
-				h1 {
-					font-size: 164px;
-					letter-spacing: 4px;
-					margin-top: 0px;
-				}
-
-				span {
-					margin-top: 36px;
-					font-size: 22px;
-					border: #fff solid 3px;
-					width: 310px;
-					padding: 15px 0 15px 25px;
-				}
+			.white-block:nth-of-type(2) {
+				margin-top: 124px;
 			}
 		}
 
-		.news {
-			margin-left: 384px;
-			.red-block {
-				margin-left: -261px;
+		div:nth-child(2) {
+			.pos(390px, -140px);
+
+			h6 {
+				font-size: 28px;
+				margin-bottom: 38px;
+				margin-left: 0px;
+				margin-top: 0px;
+			}
+
+			h1 {
+				font-size: 164px;
+				letter-spacing: 4px;
+				margin-top: 0px;
+			}
+
+			span {
+				margin-top: 36px;
+				font-size: 22px;
+				border: #fff solid 3px;
+				width: 310px;
+				padding: 15px 0 15px 25px;
 			}
 		}
+	}
 
+	.news {
+		margin-left: 384px;
+		.red-block {
+			margin-left: -261px;
+		}
 	}
 
 	/******* end media queries ********************************/
