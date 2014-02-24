@@ -14,21 +14,28 @@ define(function (require) {
 
 		this.latLng = latLng;
 		this.tiles = [];
+		this.texture = {};
 
-		Panorama.quality = quality != undefined ? quality : 1;
+		this.quality = quality != undefined ? quality : 1;
 
 		this.assembleImage = _.bind(this.assembleImage, this);
 		this.onLoadFailed = _.bind(this.onLoadFailed, this);
 
 	};
-	Panorama.quality = 1;
+
+	Panorama.init = function(){
+		app.on('cancelLoad', function(){
+			PanoLoader.loadCancelFlag = true;
+			loading = [];
+		});
+	};
 
 	Panorama.prototype = {
 		load: function () {
 			//			console.log("Panorama." + "load()", arguments);
 			PanoLoader.once("load", this.assembleImage);
 			PanoLoader.once("loadFailed", this.onLoadFailed);
-			PanoLoader.loadByLocation(this.latLng);
+			PanoLoader.loadByLocation(this.latLng, this.quality);
 		},
 		onLoadFailed:function(){
 			this.trigger("load");
@@ -93,7 +100,7 @@ define(function (require) {
 			//			document.body.appendChild(outCanvas);
 
 			this.canvas = outCanvas;
-			this.trigger("load", outCanvas);
+			this.trigger('load', outCanvas);
 		}
 
 	};
@@ -125,26 +132,28 @@ define(function (require) {
 			sv.getPanoramaById(id, window.processSVData);
 		},
 
-		loadByLocation: function (latLng) {
+		loadByLocation: function (latLng, quality) {
 			//			console.log("PanoLoader." + "loadByLocation()", arguments);
+			this.quality = quality;
 			sv.getPanoramaByLocation(latLng, 50, window.processSVData);
 		},
 
 		processPanoData: function (panoData) {
 			//			console.log("PanoLoader." + "processPanoData()", arguments);
 
+			this.loadCancelFlag = false;
 			var panoTiles = panoData.tiles;
 
 			var aspectRatio = panoTiles.worldSize.height / panoTiles.worldSize.width;
 
-			var tilesX = Math.ceil(26 / Math.pow(2, 5 - Panorama.quality));
+			var tilesX = Math.ceil(26 / Math.pow(2, 5 - this.quality));
 			var tilesY = Math.ceil(tilesX * aspectRatio);
 			var panoId = panoData.location.pano;
 
 			var tiles = [];
 			for (var y = 0; y < tilesY; y++) {
 				for (var x = 0; x < tilesX; x++) {
-					var tile = new Tile(panoId, panoData.location.latLng, Panorama.quality, x, y);
+					var tile = new Tile(panoId, panoData.location.latLng, this.quality, x, y);
 					tiles.push(tile);
 				}
 			}
@@ -152,11 +161,12 @@ define(function (require) {
 			// queue the tiles to load
 			var queue = [].concat(tiles);
 			var toLoad = queue.length;
+			var _this = this;
 
 			function loadTiles() {
 				//				console.log("loadTiles." + "loadTiles()", arguments);
 
-				while (loading.length < 4 && queue.length > 0) {
+				while ((loading.length < 4 && queue.length > 0) && _this.loadCancelFlag == false) {
 
 					(function () {
 						// scoping vars
@@ -195,13 +205,6 @@ define(function (require) {
 		}
 
 	});
-
-	Panorama.onParamChange = function(params){
-		console.log("onParamChange."+"onParamChange()", arguments);
-		if(params.q != undefined){
-			Panorama.quality = parseInt(params.q);
-		}
-	};
 
 	// needs to be global scope because it's a jsonp callback
 	window.processSVData = function (data, status) {

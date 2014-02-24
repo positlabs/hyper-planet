@@ -18,7 +18,7 @@ define(function (require) {
 
 		var _this = this;
 		this.route = route;
-		this.textures = [];
+//		this.textures = [];
 		this.panos = [];
 		this.loaded = false;
 		this.loading = true;
@@ -34,7 +34,7 @@ define(function (require) {
 			if(_this.destroyed) return;
 
 			var pano = _this.panos[currentPanoIndex];
-			pano.on('load', function () {
+			pano.once('load', function () {
 				if(_this.destroyed) return;
 				console.log("loaded ", currentPanoIndex, ' / ', _this.panos.length);
 				app.trigger("loadProgress", Math.round(currentPanoIndex / _this.panos.length * 100));
@@ -57,7 +57,8 @@ define(function (require) {
 				var pano = _this.panos[i];
 				if(pano.canvas){
 					var texture = StereoProjectionView.createTexture(pano.canvas);
-					_this.textures.push(texture);
+					pano.texture = texture;
+//					_this.textures.push(texture);
 					newPanos.push(pano); //only save the panos that have valid streetview data
 				}
 			}

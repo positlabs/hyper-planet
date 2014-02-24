@@ -6,7 +6,8 @@ define(["require_config"], function () {
 	// TODO: route interpolation (maybe)
 	// TODO: map marker showing current position
 
-	//TODO: if page reloads with one of the default routes, pick a new one
+	//TODO: social sharing?
+
 
 	require([
 		'app',

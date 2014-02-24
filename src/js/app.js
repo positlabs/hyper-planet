@@ -26,6 +26,7 @@ define(function (require) {
 			MapView.init(ox('#map-container'));
 			StereoProjectionView.init(ox('#projection-container'));
 			UI.init(ox('#experiment-container'));
+			Panorama.init();
 			Params.init();
 
 			var route = []; // array of latLngs
@@ -60,10 +61,6 @@ define(function (require) {
 //				Params._checkParams();
 				MapView.setRoute(o, d, true);
 			}
-
-			// TODO: remove this.
-			// was used for forcing quality, but we won't need it after implementing progressive upgrade
-			app.on("change:params", Panorama.onParamChange);
 
 			// map route changed
 			app.on("routeChange", function (directions) {
