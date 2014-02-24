@@ -1,6 +1,7 @@
 define(function (require) {
 
-	var qString = "";
+	var hashString = "";
+	var paramObj = {};
 
 	var Params = {
 		init:function(){
@@ -8,11 +9,10 @@ define(function (require) {
 			this._checkParams();
 		},
 		_checkParams:function(){
-			if (qString != window.location.search) {
-				qString = window.location.search;
+			if (hashString != window.location.hash) {
+				hashString = window.location.hash;
 
-				var paramObj = {};
-				var ampSplit = qString.slice(1, qString.length).split("&");
+				var ampSplit = hashString.slice(2, hashString.length).split('&');
 				for (var i = 0, maxi = ampSplit.length; i < maxi; i++) {
 				  var eqSplit = ampSplit[i].split('=');
 					paramObj[eqSplit[0]] = eqSplit[1];
@@ -23,14 +23,17 @@ define(function (require) {
 			}
 		},
 		get: function (name) {
-			var name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-			var regexS = "[\\?&]" + name + "=([^&#]*)";
-			var regex = new RegExp(regexS);
-			var results = regex.exec(window.location.href);
-			if (results == null)
-				return undefined;
-			else
-				return results[1];
+			return paramObj[name];
+		},
+		set:function(key, value){
+			paramObj[key] = value;
+
+			var keyValArr = [];
+			for(p in paramObj){
+				keyValArr.push(p + '=' + paramObj[p]);
+			}
+			var hash = '#/' + keyValArr.join('&');
+			window.location.hash = hash;
 		}
 	};
 

@@ -12,7 +12,7 @@ body, html {
 	font: @fontTrumpReg;
 }
 
-img, p, span, h1, h6{
+img, p, span, h1, h6 {
 	.user-select(none);
 }
 
@@ -46,26 +46,89 @@ img, p, span, h1, h6{
 			.transform(translateX(0));
 		}
 	}
+	.preloader {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+
+		.state-playing &{
+			display: none;
+		}
+
+		.gif {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: black;
+			opacity: .85;
+
+
+			img {
+				display: none;
+				.state-loading & {
+					display: block;
+				}
+				position: absolute;
+				content: url('../images/450x450.gif');
+				margin-left: -225px;
+				margin-top: -225px;
+				top: 50%;
+				left: 50%;
+				.state-map-transition();
+				.state-map & {
+					left: 65%;
+				}
+			}
+		}
+
+		span {
+			position: absolute;
+			display: block;
+			width: 50px;
+			margin-left: -25px;
+			margin-top: -10px;
+			top: 50%;
+			left: 50%;
+			.state-map-transition();
+			.state-map & {
+				left: 65%;
+			}
+			z-index: 10;
+			color: white;
+			font-family: @fontTrumpMed;
+			font-size: 24px;
+			text-transform: uppercase;
+			text-align: center;
+
+		}
+
+		.user-select(none);
+	}
+
 
 	#projection-container {
 		width: 100%;
 		height: 100%;
 
-		.black-overlay {
-			width: 100%;
-			height: 100%;
-			background: black;
-			position: absolute;
-			opacity: .85;
-			.transition(opacity .5s);
-			.state-loading & {
-				opacity: 1;
-			}
-			.state-playing & {
-				.transition(opacity .5s);
-				opacity: 0;
-			}
-		}
+//		.black-overlay {
+//			width: 100%;
+//			height: 100%;
+//			background: black;
+//			position: absolute;
+//			opacity: .85;
+//			.transition(opacity .5s);
+//			.state-loading & {
+//				opacity: 0;
+//				//				opacity: 1;
+//			}
+//			.state-playing & {
+//				.transition(opacity .5s);
+//				opacity: 0;
+//			}
+//		}
+
 		#stereo-projection {
 			z-index: -1;
 			position: absolute;
@@ -83,44 +146,6 @@ img, p, span, h1, h6{
 
 		.state-splash & {
 			display: none;
-		}
-
-		&#loader-view {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-
-			display: none;
-			.state-loading & {
-				display: block;
-			}
-			.state-map & {
-				left: 65%;
-			}
-
-			img {
-				position: absolute;
-				content: url('../images/450x450.gif');
-				left: -225px;
-				top: -225px;
-			}
-
-			span {
-				position: absolute;
-				display: block;
-				width: 50px;
-				z-index: 10;
-				color: white;
-				font-family: @fontTrumpMed;
-				font-size: 24px;
-				text-transform: uppercase;
-				margin-left: -25px;
-				margin-top: -10px;
-				text-align: center;
-
-			}
-
-			.user-select(none);
 		}
 
 		&#play-btn {

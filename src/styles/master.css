@@ -599,30 +599,82 @@ h6 {
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);
 }
-#experiment-container #projection-container {
+#experiment-container .preloader {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
-#experiment-container #projection-container .black-overlay {
+.state-playing #experiment-container .preloader {
+  display: none;
+}
+#experiment-container .preloader .gif {
+  position: absolute;
   width: 100%;
   height: 100%;
   background: black;
-  position: absolute;
   opacity: .85;
-  transition: opacity 0.5s;
-  -webkit-transition: opacity 0.5s;
-  -moz-transition: opacity 0.5s;
-  -ms-transition: opacity 0.5s;
 }
-.state-loading #experiment-container #projection-container .black-overlay {
-  opacity: 1;
+#experiment-container .preloader .gif img {
+  display: none;
+  position: absolute;
+  content: url('../images/450x450.gif');
+  margin-left: -225px;
+  margin-top: -225px;
+  top: 50%;
+  left: 50%;
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
 }
-.state-playing #experiment-container #projection-container .black-overlay {
-  transition: opacity 0.5s;
-  -webkit-transition: opacity 0.5s;
-  -moz-transition: opacity 0.5s;
-  -ms-transition: opacity 0.5s;
-  opacity: 0;
+.state-loading #experiment-container .preloader .gif img {
+  display: block;
+}
+.state-map #experiment-container .preloader .gif img {
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+}
+.state-map #experiment-container .preloader .gif img {
+  left: 65%;
+}
+#experiment-container .preloader span {
+  position: absolute;
+  display: block;
+  width: 50px;
+  margin-left: -25px;
+  margin-top: -10px;
+  top: 50%;
+  left: 50%;
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  z-index: 10;
+  color: white;
+  font-family: "TrumpGothicEastMedium", Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.state-map #experiment-container .preloader span {
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+}
+.state-map #experiment-container .preloader span {
+  left: 65%;
+}
+#experiment-container #projection-container {
+  width: 100%;
+  height: 100%;
 }
 #experiment-container #projection-container #stereo-projection {
   z-index: -1;
@@ -654,40 +706,6 @@ h6 {
 }
 .state-splash #experiment-container .ui {
   display: none;
-}
-#experiment-container .ui#loader-view {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-.state-loading #experiment-container .ui#loader-view {
-  display: block;
-}
-.state-map #experiment-container .ui#loader-view {
-  left: 65%;
-}
-#experiment-container .ui#loader-view img {
-  position: absolute;
-  content: url('../images/450x450.gif');
-  left: -225px;
-  top: -225px;
-}
-#experiment-container .ui#loader-view span {
-  position: absolute;
-  display: block;
-  width: 50px;
-  z-index: 10;
-  color: white;
-  font-family: "TrumpGothicEastMedium", Arial, Helvetica, sans-serif;
-  font-size: 24px;
-  text-transform: uppercase;
-  margin-left: -25px;
-  margin-top: -10px;
-  text-align: center;
 }
 #experiment-container .ui#play-btn {
   position: absolute;

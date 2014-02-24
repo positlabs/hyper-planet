@@ -19,7 +19,7 @@ define(function (require) {
 				mapTypeControlOptions: {
 					mapTypeIds: [ gm.MapTypeId.ROADMAP, gm.MapTypeId.HYBRID]
 				},
-				mapTypeId: gm.MapTypeId.HYBRID,
+				mapTypeId: gm.MapTypeId.ROADMAP,
 				streetViewControl: false,
 				panControl: false,
 				zoomControl: false

@@ -1,10 +1,7 @@
 define(["require_config"], function () {
 
-
-	//TODO: deep linking
 	//TODO: origin/destination input fields
-	//TODO: use q=3 for preview frames
-
+	//TODO: set a better default route
 
 	// TODO: route interpolation (maybe)
 	// TODO: key controls for stepping through sequence

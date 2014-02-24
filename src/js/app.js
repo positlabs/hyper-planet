@@ -10,6 +10,11 @@ define(function (require) {
 	var TextureSequence = require('TextureSequence');
 	var Params = require('Params');
 
+	// preset locations
+	var locations = [
+		['34.1944244,-115.72303220000003', '34.309857,-115.70233310000003']
+	];
+
 	var app = window.app = {
 		init: function () {
 			new ox.Events(this);
@@ -24,9 +29,13 @@ define(function (require) {
 			var txseq = new TextureSequence();
 
 			// set to default if not set from query params
-			var o = 'Fort Bragg, CA',
-					d = 'Caspar, CA';
+			var location = locations[Math.floor(Math.random() * locations.length)];
 			if (!Params.get('o')) {
+				var o = location[0],
+						d = location[1];
+				Params.set('o', o);
+				Params.set('d', d);
+				Params._checkParams();
 				MapView.setRoute(o, d, true);
 			}
 
@@ -43,8 +52,16 @@ define(function (require) {
 
 				route = directions.routes[0].overview_path;
 
+				// set url params from directions
+				var leg = directions.routes[0].legs[0];
+				var o = leg.start_location.d + ',' + leg.start_location.e;
+				var d = leg.end_location.d + ',' + leg.end_location.e;
+				Params.set('o', o);
+				Params.set('d', d);
+				Params._checkParams();
+
 				// show route starting point
-				var pano = new Panorama(route[0], 3);
+				var pano = new Panorama(route[0], 2);
 
 				pano.on('load', function (panoCanvas) {
 					if (panoCanvas == undefined) panoCanvas = ox.create('canvas');

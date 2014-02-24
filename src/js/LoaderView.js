@@ -2,24 +2,19 @@ define(function (require) {
 
 	var LoaderView = function(element){
 
-		var div = ox.create('div');
-		div.id = "loader-view";
-		div.className = "ui";
-		element.appendChild(div);
-
-		var percentSpan = ox.create('span');
-		div.appendChild(percentSpan);
-
-		var gif = ox.create('img');
-		div.appendChild(gif);
+		var percentSpan = element.querySelector('span');
+		var img = element.querySelector('img');
 
 		app.on('loadProgress', function(percent){
-			div.style.opacity = 1;
 			percentSpan.innerHTML = percent + "%";
 		});
 
+		app.on('play', function(){
+			percentSpan.innerHTML = '';
+		});
+
 		app.on('routeChange', function(){
-			div.style.opacity = 0;
+			percentSpan.innerHTML = '';
 		});
 
 	};
