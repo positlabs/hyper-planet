@@ -77,7 +77,7 @@ define(function (require) {
 
 				pano.load();
 
-				app.trigger('pause');
+				app.trigger('stop'); // stopping timelapse
 
 			});
 
@@ -106,7 +106,7 @@ define(function (require) {
 				document.body.classList.add('state-playing');
 			});
 
-			app.on('pause', function () {
+			app.on('stop', function () {
 				document.body.classList.remove('state-loading');
 				document.body.classList.remove('state-playing');
 			});

@@ -1,9 +1,9 @@
 define(["require_config"], function () {
 
 	//TODO: origin/destination input fields
+	//TODO: download higher res textures if user is paused on a frame
 
 	// TODO: route interpolation (maybe)
-	// TODO: key controls for stepping through sequence
 	// TODO: map marker showing current position
 
 	require([

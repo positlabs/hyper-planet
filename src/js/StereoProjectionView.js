@@ -6,8 +6,7 @@ define(function (require) {
 	var shaderPass,
 			composer,
 			renderer,
-			camera,
-			plane;
+			camera;
 
 	var defaultZoom = 9;
 
@@ -31,9 +30,6 @@ define(function (require) {
 
 			renderer.domElement.id = "stereo-projection";
 			parentEl.appendChild(renderer.domElement);
-
-//			plane = new THREE.Mesh(new THREE.PlaneGeometry(width, height, 1, 1));
-//			scene.add(plane);
 
 			composer = new THREE.EffectComposer(renderer);
 			composer.addPass(new THREE.RenderPass(scene, camera));
@@ -59,13 +55,17 @@ define(function (require) {
 			window.addEventListener('resize', this.onResize);
 
 			this.pause = _.bind(this.pause, this);
-			app.on('pause', this.pause);
+			this.stop = _.bind(this.stop, this);
+			app.on('stop', this.stop);
+
+			this.onKeydown = _.bind(this.onKeydown, this);
+			window.addEventListener('keydown', this.onKeydown);
 		},
 		onWheel: function (e) {
 
 			// only allow zoom when timelapse is playing
 			var zoomEnabled = document.body.classList.contains('state-playing');
-			if(zoomEnabled){
+			if (zoomEnabled) {
 				var delta = -e.deltaY / 40;
 				shaderPass.uniforms.scale.value += delta;
 				shaderPass.uniforms.scale.value = Math.min(20, shaderPass.uniforms.scale.value);
@@ -88,49 +88,73 @@ define(function (require) {
 			var w = window.innerWidth,
 					h = window.innerHeight;
 			renderer.setSize(w, h);
-//			camera.left = w / -2;
-//			camera.right = w / 2;
-//			camera.top = h / 2;
-//			camera.bottom = h / -2;
 			shaderPass.uniforms.aspect.value = window.innerHeight / window.innerWidth;
 
 		},
-		play: function (textureSequence) {
-			console.log("StereoProjectionView."+"play()", arguments);
-			app.trigger('play');
-			if (this.playing) {
-				// restart!
-				this.currentFrame = 0;
-			} else {
-
-				shaderPass.uniforms.scale.value = defaultZoom;
-
-				this.textures = textureSequence.textures;
-//			console.log("StereoProjectionView."+"playTextureSequence()", arguments);
-				var _this = this;
-				this.playing = true;
-				this.currentFrame = 0;
-				this.animInterval = setInterval(function () {
-					if (_this.currentFrame > textureSequence.textures.length) {
-						_this.currentFrame = 0;
+		onKeydown: function (e) {
+			switch (e.keyCode) {
+				case 32:
+					if (this.playing) {
+						this.pause();
+					} else if (this.paused) {
+						this.resume();
 					}
-					_this.setTexture(textureSequence.textures[_this.currentFrame]);
-					_this.currentFrame++;
-				}, 1000 / 10);
+					break;
+				case 37:
+					//left
+					this.scrub(-1);
+					break;
+				case 39:
+					//right
+					this.scrub(1);
+					break;
 			}
 		},
-		pause: function () {
-			console.log("StereoProjectionView."+"pause()", arguments);
+		play: function (textureSequence) {
+			console.log("StereoProjectionView." + "play()", arguments);
+			app.trigger('play');
+
+			shaderPass.uniforms.scale.value = defaultZoom;
+
+			this.textures = textureSequence.textures;
+			this.currentFrame = 0;
+			this.resume();
+		},
+		resume: function(){
+			var _this = this;
+			this.playing = true;
+			this.animInterval = setInterval(function () {
+				_this.scrub(1, true);
+			}, 1000 / 10);
+		},
+		stop: function () {
+			this.paused = false;
 			this.playing = false;
-			if(this.animInterval){
+			if (this.animInterval) {
 				clearInterval(this.animInterval);
 			}
 		},
-		scrub: function (delta) {
-			this.currentFrame += delta;
-			this.currentFrame = Math.min(this.currentFrame, this.textures.length - 1);
-			this.currentFrame = Math.max(this.currentFrame, 0);
-			this.setTexture(this.textures[this.currentFrame]);
+		pause: function () {
+			if (this.playing) {
+				this.paused = true;
+			}
+			this.playing = false;
+			if (this.animInterval) {
+				clearInterval(this.animInterval);
+			}
+		},
+		scrub: function (delta, force) {
+			if (this.paused || force) {
+				this.currentFrame += delta;
+				if(this.currentFrame < 0 ){
+					// delta is negative and we hit the beginning of the array, go to the end
+					this.currentFrame = this.textures.length + delta;
+				}else if(this.currentFrame > this.textures.length){
+					// delta is positive and we hit the end of the array, go to the beginning
+					this.currentFrame = this.currentFrame % this.textures.length;
+				}
+				this.setTexture(this.textures[this.currentFrame]);
+			}
 		}
 
 	};
