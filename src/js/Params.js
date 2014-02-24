@@ -18,7 +18,8 @@ define(function (require) {
 					paramObj[eqSplit[0]] = eqSplit[1];
 				}
 
-				app.trigger("change:params", paramObj);
+				// if stuff needs values, they should handle that in an init function
+//				app.trigger("change:params", paramObj);
 
 			}
 		},

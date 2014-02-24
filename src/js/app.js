@@ -16,7 +16,6 @@ define(function (require) {
 		['22.3168416,114.21253260000003', '22.2907293,114.21436410000001'], // hong kong 1
 		['22.3033724,114.15849890000004', '22.3279743,114.15112150000004'], // hong kong 2
 		['41.1411769,-8.60815290000005', '41.1441807,-8.579257900000016'] // france
-
 	];
 
 	var app = window.app = {
@@ -32,17 +31,38 @@ define(function (require) {
 			var route = []; // array of latLngs
 			var txseq = new TextureSequence();
 
-			// set to default if not set from query params
-			var location = locations[Math.floor(Math.random() * locations.length)];
-			if (!Params.get('o')) {
+			var o = Params.get('o');
+			var resetting = false; // are we picking a new location?
+			if (o) {
+				// check if params match one of the defaults.
+				// if it does, kick it out of the list and pick another one
+				var d = Params.get('d');
+				for (var i = 0, maxi = locations.length; i < maxi; i++) {
+					var loc = locations[i];
+					if (loc[0] == o && loc[1] == d) {
+						// remove this location from defaults
+						locations.splice(i, 1);
+						resetting = true;
+						i = maxi;
+					}
+				}
+
+			}
+
+			// if destination wasn't set, or if we're forcing a new location
+			if (!o || resetting) {
+				// set to default if not set from query params
+				var location = locations[Math.floor(Math.random() * locations.length)];
 				var o = location[0],
 						d = location[1];
 				Params.set('o', o);
 				Params.set('d', d);
-				Params._checkParams();
+//				Params._checkParams();
 				MapView.setRoute(o, d, true);
 			}
 
+			// TODO: remove this.
+			// was used for forcing quality, but we won't need it after implementing progressive upgrade
 			app.on("change:params", Panorama.onParamChange);
 
 			// map route changed

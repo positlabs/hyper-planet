@@ -52,13 +52,16 @@ define(function (require) {
 
 		function getTextures() {
 			if(_this.destroyed) return;
+			var newPanos = _this.panos.concat([]);
 			for (var i = 0, maxi = _this.panos.length; i < maxi; i++) {
 				var pano = _this.panos[i];
 				if(pano.canvas){
 					var texture = StereoProjectionView.createTexture(pano.canvas);
 					_this.textures.push(texture);
+					newPanos.push(pano); //only save the panos that have valid streetview data
 				}
 			}
+			_this.panos = newPanos;
 			_this.loaded = true;
 			_this.loading = false;
 			_this.trigger('load');

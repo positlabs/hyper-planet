@@ -117,6 +117,7 @@ define(function (require) {
 			shaderPass.uniforms.scale.value = defaultZoom;
 
 			this.textures = textureSequence.textures;
+			this.panos = textureSequence.panos;
 			this.currentFrame = 0;
 			this.resume();
 		},
@@ -135,6 +136,8 @@ define(function (require) {
 			}
 		},
 		pause: function () {
+			//TODO: if user is paused on a frame for more than 300ms, load a higher quality image
+
 			if (this.playing) {
 				this.paused = true;
 			}
