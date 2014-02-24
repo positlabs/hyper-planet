@@ -1,6 +1,6 @@
 define(["require_config"], function () {
 
-	//TODO: origin/destination input fields
+	//TODO: search input field
 	//TODO: download higher res textures if user is paused on a frame
 
 	// TODO: route interpolation (maybe)
