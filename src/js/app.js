@@ -7,7 +7,7 @@ define(function (require) {
 
 	var Panorama = require('Panorama');
 	var TilePreview = require('TilePreview');
-	var TextureSequence = require('TextureSequence');
+	var PanoSequence = require('PanoSequence');
 	var Params = require('Params');
 
 	// preset locations
@@ -22,15 +22,15 @@ define(function (require) {
 		init: function () {
 			new ox.Events(this);
 
+			Panorama.init(StereoProjectionView);
 			SplashView.init(ox('#splash-container'));
 			MapView.init(ox('#map-container'));
 			StereoProjectionView.init(ox('#projection-container'));
 			UI.init(ox('#experiment-container'));
-			Panorama.init();
 			Params.init();
 
 			var route = []; // array of latLngs
-			var txseq = new TextureSequence();
+			var panoSeq = new PanoSequence();
 
 			var o = Params.get('o');
 			var resetting = false; // are we picking a new location?
@@ -66,9 +66,9 @@ define(function (require) {
 			app.on("routeChange", function (directions) {
 
 				// invalidate textureseq since route changed
-				if (txseq) {
-					txseq.destroy();
-					txseq = undefined;
+				if (panoSeq) {
+					panoSeq.destroy();
+					panoSeq = undefined;
 				}
 
 				route = directions.routes[0].overview_path;
@@ -84,10 +84,8 @@ define(function (require) {
 				// show route starting point
 				var pano = new Panorama(route[0], 2);
 
-				pano.on('load', function (panoCanvas) {
-					if (panoCanvas == undefined) panoCanvas = ox.create('canvas');
-					var texture = StereoProjectionView.createTexture(panoCanvas);
-					StereoProjectionView.setTexture(texture);
+				pano.on('load', function () {
+					StereoProjectionView.setTexture(pano.texture);
 					StereoProjectionView.render();
 					// new TilePreview(pano.tiles);
 				});
@@ -102,18 +100,18 @@ define(function (require) {
 			app.on('load', function () {
 				document.body.classList.add('state-loading');
 
-				if (txseq && txseq.loading) return; // already loading
+				if (panoSeq && panoSeq.loading) return; // already loading
 
-				if (txseq && txseq.loaded) {
+				if (panoSeq && panoSeq.loaded) {
 					// replay the animation
-					StereoProjectionView.play(txseq);
+					StereoProjectionView.play(panoSeq);
 				} else {
-					if (txseq) txseq.destroy();
-					txseq = new TextureSequence();
-					txseq.on('load', function () {
-						StereoProjectionView.play(txseq);
+					if (panoSeq) panoSeq.destroy();
+					panoSeq = new PanoSequence();
+					panoSeq.on('load', function () {
+						StereoProjectionView.play(panoSeq);
 					});
-					txseq.load(route);
+					panoSeq.load(route);
 				}
 
 			});

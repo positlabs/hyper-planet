@@ -1,13 +1,14 @@
 define(["require_config"], function () {
 
-	//TODO: search input field
-	//TODO: download higher res textures if user is paused on a frame
+	// TODO: build process
+
+	// TODO: search input field
 
 	// TODO: route interpolation (maybe)
 	// TODO: map marker showing current position
+	// TODO: social sharing?
 
-	//TODO: social sharing?
-
+	// TODO: download higher res textures if user is paused on a frame
 
 	require([
 		'app',

@@ -42,23 +42,20 @@ define(function (require) {
 					// load next pano
 					loadPano();
 				} else {
-					// done loading panos. get all of the textures
-					getTextures();
+					// done loading panos. filter out the bad ones
+					filterBadPanos();
 				}
 			});
 			pano.load();
 			currentPanoIndex++;
 		}
 
-		function getTextures() {
+		function filterBadPanos() {
 			if(_this.destroyed) return;
 			var newPanos = _this.panos.concat([]);
 			for (var i = 0, maxi = _this.panos.length; i < maxi; i++) {
 				var pano = _this.panos[i];
 				if(pano.canvas){
-					var texture = StereoProjectionView.createTexture(pano.canvas);
-					pano.texture = texture;
-//					_this.textures.push(texture);
 					newPanos.push(pano); //only save the panos that have valid streetview data
 				}
 			}
