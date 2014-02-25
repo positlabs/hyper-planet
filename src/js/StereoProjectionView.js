@@ -66,6 +66,8 @@ define(function (require) {
 
 			this.onKeydown = _.bind(this.onKeydown, this);
 			window.addEventListener('keydown', this.onKeydown);
+
+			this.scrub = _.throttle(this.scrub, 1000/30);
 		},
 		onWheel: function (e) {
 
@@ -144,8 +146,7 @@ define(function (require) {
 			}
 		},
 		pause: function () {
-			// TODO: if user is paused on a frame for more than 300ms, load a higher quality image
-			// need a way to cancel load
+			// if user is paused on a frame for more than 300ms, load a higher quality image
 
 			if (this.playing) {
 				this.paused = true;

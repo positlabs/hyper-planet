@@ -33,6 +33,7 @@ define(function (require) {
 			var panoSeq = new PanoSequence();
 
 			var o = Params.get('o');
+			var d = Params.get('d');
 			var resetting = false; // are we picking a new location?
 			if (o) {
 				// check if params match one of the defaults.
@@ -59,6 +60,8 @@ define(function (require) {
 				Params.set('o', o);
 				Params.set('d', d);
 //				Params._checkParams();
+				MapView.setRoute(o, d, true);
+			}else if(o && d){
 				MapView.setRoute(o, d, true);
 			}
 
