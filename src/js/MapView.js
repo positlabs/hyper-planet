@@ -28,7 +28,7 @@ define(function (require) {
 			this.map = new gm.Map(mapDiv, mapOptions);
 
 			gm.event.addListener(this.map, 'click', function (e) {
-				_this.setRoute(e.latLng, new gm.LatLng(e.latLng.d + rand(.002), e.latLng.e + rand(.002) ));
+				_this.setRoute(e.latLng, new gm.LatLng(e.latLng.d + rand(.002), e.latLng.e + rand(.002)));
 			});
 
 			directionsDisplay.setMap(this.map);
@@ -40,19 +40,35 @@ define(function (require) {
 			});
 
 			this.onParamChange = _.bind(this.onParamChange, this);
-			app.on("change:params", this.onParamChange);
+			app.on('change:params', this.onParamChange);
+
+			this.currentLocMarker = new google.maps.Marker({
+				map: this.map,
+				icon: 'images/man.png'
+			});
+			app.on('play', function () {
+				_this.currentLocMarker.setMap(_this.map);
+			});
+			app.on('stop', function () {
+				_this.currentLocMarker.setMap(null);
+			});
+			this.setCurrentPosition = _.bind(this.setCurrentPosition, this);
+			app.on('change:currentLocation', this.setCurrentPosition);
 
 		},
-		onParamChange:function(params){
+		onParamChange: function (params) {
 			var o = params.o,
 					d = params.d;
-			if(o && d){
+			if (o && d) {
 				this.setRoute(o, d, true);
-			}else if(o && d == undefined){
+			} else if (o && d == undefined) {
 				this.setRoute(o, o, true);
 			}
 		},
-
+		setCurrentPosition: function (latLng) {
+			console.log("MapView."+"setCurrentPosition()", arguments);
+			this.currentLocMarker.setPosition(latLng);
+		},
 		setRoute: function (origin, destination, autoZoom) {
 			var _this = this;
 			var request = {
@@ -64,8 +80,8 @@ define(function (require) {
 			directionsService.route(request, function (response, status) {
 				if (status == gm.DirectionsStatus.OK) {
 					directionsDisplay.setDirections(response);
-					if(!autoZoom){
-						setTimeout(function(){
+					if (!autoZoom) {
+						setTimeout(function () {
 							_this.map.setZoom(mapZoom);
 						}, 1);
 					}

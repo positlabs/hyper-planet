@@ -162,45 +162,43 @@ define(function (require) {
 				if (this.currentFrame < 0) {
 					// delta is negative and we hit the beginning of the array, go to the end
 					this.currentFrame = this.panos.length + delta;
-				} else if (this.currentFrame > this.panos.length) {
+				} else if (this.currentFrame >= this.panos.length) {
 					// delta is positive and we hit the end of the array, go to the beginning
 					this.currentFrame = this.currentFrame % this.panos.length;
+
 				}
-				this.setTexture(this.panos[this.currentFrame].texture);
+				var pano = this.panos[this.currentFrame];
+				this.setTexture(pano.texture);
+				app.trigger('change:currentLocation', pano.latLng);
+
 			}
 		},
 		checkStale: function () {
-			return;
 			// check to see if we should try to improve image quality
 			if (this.staleTimeout) {
 				clearTimeout(this.staleTimeout);
 			}
 			this.staleTimeout = setTimeout(this.improveTextureQuality, 300);
-			// need to cancel all loads
-			app.trigger('cancelLoad');
+
 		},
 		improveTextureQuality: function () {
-			console.log("StereoProjectionView." + "improveTextureQuality()", arguments);
+			var frame = this.currentFrame;
+			var pano = this.panos[frame];
 
-			return;
-			//FIXME: this isn't working. it's overwriting the wrong frame...
-				var frame = this.currentFrame;
-				var pano = this.panos[frame];
-				if (pano.quality != 2) {
-					var _this = this;
-					pano.quality = 2;
+			if (pano.quality < 3) {
+				var _this = this;
+				pano.quality++;
 
-					pano.once('load', function () {
-						console.log('new texture applied!');
-						pano.texture = _this.createTexture(pano.canvas);
-						if (frame == _this.currentFrame) {
-//							_this.setTexture(_this.panos[_this.currentFrame].texture);
-//						if(pano.quality != 2)_this.improveTextureQuality();
-						}
-					});
+				pano.once('load', function () {
+					if (frame == _this.currentFrame) {
+						// if we're still viewing the target frame, update the texture and load an even higher quality image
+						_this.setTexture(_this.panos[_this.currentFrame].texture);
+						if (pano.quality < 3)_this.improveTextureQuality();
+					}
+				});
 
-					pano.load();
-				}
+				pano.load();
+			}
 
 		}
 
