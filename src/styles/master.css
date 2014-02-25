@@ -569,22 +569,22 @@ h6 {
 }
 #experiment-container #map-container {
   position: absolute;
-  width: 100%;
+  width: 30%;
   height: 100%;
   z-index: 1;
   transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  transform: translateX(-30.5%);
-  -webkit-transform: translateX(-30.5%);
-  -moz-transform: translateX(-30.5%);
-  -ms-transform: translateX(-30.5%);
+  transform: translateX(-100.5%);
+  -webkit-transform: translateX(-100.5%);
+  -moz-transform: translateX(-100.5%);
+  -ms-transform: translateX(-100.5%);
 }
 #experiment-container #map-container #map-div {
   position: absolute;
   left: 0;
-  width: 30%;
+  width: 100%;
   height: 100%;
 }
 .state-map #experiment-container #map-container {
@@ -598,6 +598,47 @@ h6 {
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);
+}
+#experiment-container #map-container .search-field {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 1;
+  background: #333;
+  transform: translateY(41px);
+  -webkit-transform: translateY(41px);
+  -moz-transform: translateY(41px);
+  -ms-transform: translateY(41px);
+  transition: all 1s 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  -webkit-transition: all 1s 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  -moz-transition: all 1s 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  -ms-transition: all 1s 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+#experiment-container #map-container .search-field img {
+  position: absolute;
+  right: 0;
+  padding: 9px;
+}
+#experiment-container #map-container .search-field input {
+  position: absolute;
+  width: 90%;
+  height: 100%;
+  color: white;
+  margin-left: 5%;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+#experiment-container #map-container:hover .search-field {
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  -moz-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  -ms-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
 }
 #experiment-container .preloader {
   position: absolute;

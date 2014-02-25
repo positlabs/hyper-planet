@@ -1,6 +1,7 @@
 define(function (require) {
 
 	var gm = google.maps;
+	var geocoder = new gm.Geocoder();
 	var directionsService = new gm.DirectionsService();
 	var directionsDisplay = new gm.DirectionsRenderer({draggable: true});
 
@@ -52,8 +53,39 @@ define(function (require) {
 			app.on('stop', function () {
 				_this.currentLocMarker.setMap(null);
 			});
+			this.onPlaceChanged = _.bind(this.onPlaceChanged, this);
 			this.setCurrentPosition = _.bind(this.setCurrentPosition, this);
 			app.on('change:currentLocation', this.setCurrentPosition);
+
+			// set up search field
+//			var searchForm = ox('.search-field');
+//			searchForm.addEventListener('submit', function(e){e.preventDefault()});
+
+		//TODO: search box autocomplete
+		//TODO: button click
+			var searchBtn = ox('.search-field img');
+			var searchInput = ox('.search-field input');
+			this.searchBox = new gm.places.SearchBox(searchInput);
+//			searchBtn.addEventListener('click', function(){
+//				var places = _this.searchBox.getPlaces();
+//				_this.onPlaceChanged(places);
+//			});
+
+			gm.event.addListener(this.searchBox, 'places_changed', function (e) {
+				var places = _this.searchBox.getPlaces();
+				_this.onPlaceChanged(places);
+			});
+		},
+		onPlaceChanged:function(places){
+			console.log("MapView."+"onPlaceChanged()", arguments);
+			var _this = this;
+			geocoder.geocode({ 'address': places[0].formatted_address}, function (results, status) {
+				if (status == gm.GeocoderStatus.OK) {
+					_this.map.panTo(results[0].geometry.location);
+				} else {
+					console.log("Geocode was not successful for the following reason: " + status);
+				}
+			});
 
 		},
 		onParamChange: function (params) {
@@ -66,7 +98,6 @@ define(function (require) {
 			}
 		},
 		setCurrentPosition: function (latLng) {
-			console.log("MapView."+"setCurrentPosition()", arguments);
 			this.currentLocMarker.setPosition(latLng);
 		},
 		setRoute: function (origin, destination, autoZoom) {

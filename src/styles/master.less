@@ -29,23 +29,61 @@ img, p, span, h1, h6 {
 
 	#map-container {
 		position: absolute;
-		width: 100%;
+		width: 30%;
 		height: 100%;
 		z-index: 1;
 		#map-div {
 			position: absolute;
 			left: 0;
-			width: 30%;
+			width: 100%;
 			height: 100%;
 		}
 
 		.state-map-transition();
 
-		.transform(translateX(-30.5%));
+		.transform(translateX(-100.5%));
 		.state-map & {
 			.transform(translateX(0));
 		}
+
+		.search-field {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			height: 40px;
+			z-index: 1;
+			background: #333;
+
+			.transform(translateY(41px));
+			.transition(all 1s 2s @easeIn);
+
+			img {
+				position: absolute;
+				right: 0;
+//				cursor: pointer;
+				padding: 9px;
+			}
+			input {
+				position: absolute;
+				width: 90%;
+				height: 100%;
+				color: white;
+				margin-left: 5%;
+				background: transparent;
+				border: none;
+				outline: none;
+			}
+		}
+		&:hover {
+			.search-field {
+				.transition(all .3s @easeIn);
+				.transform(translateY(0));
+			}
+
+		}
+
 	}
+
 	.preloader {
 		position: absolute;
 		top: 0;
@@ -53,7 +91,7 @@ img, p, span, h1, h6 {
 		width: 100%;
 		height: 100%;
 
-		.state-playing &{
+		.state-playing & {
 			display: none;
 		}
 
@@ -63,7 +101,6 @@ img, p, span, h1, h6 {
 			height: 100%;
 			background: black;
 			opacity: .8;
-
 
 			img {
 				display: none;
@@ -107,27 +144,9 @@ img, p, span, h1, h6 {
 		.user-select(none);
 	}
 
-
 	#projection-container {
 		width: 100%;
 		height: 100%;
-
-//		.black-overlay {
-//			width: 100%;
-//			height: 100%;
-//			background: black;
-//			position: absolute;
-//			opacity: .85;
-//			.transition(opacity .5s);
-//			.state-loading & {
-//				opacity: 0;
-//				//				opacity: 1;
-//			}
-//			.state-playing & {
-//				.transition(opacity .5s);
-//				opacity: 0;
-//			}
-//		}
 
 		#stereo-projection {
 			z-index: -1;
