@@ -1,10 +1,8 @@
 define(["require_config"], function () {
 
 	// TODO: build process
-	// TODO: search input field
 	// TODO: route interpolation (maybe)
 	// TODO: social sharing?
-
 
 	require([
 		'app',

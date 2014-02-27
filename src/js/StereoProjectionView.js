@@ -74,7 +74,9 @@ define(function (require) {
 			// only allow zoom when timelapse is playing
 			var zoomEnabled = document.body.classList.contains('state-playing');
 			if (zoomEnabled) {
-				var delta = -e.deltaY / 40;
+				var delta = -e.deltaY / 200;
+				console.log("" +
+						"delta",delta);
 				shaderPass.uniforms.scale.value += delta;
 				shaderPass.uniforms.scale.value = Math.min(20, shaderPass.uniforms.scale.value);
 				shaderPass.uniforms.scale.value = Math.max(3, shaderPass.uniforms.scale.value);
