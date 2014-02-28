@@ -14,14 +14,23 @@ define(function (require) {
 			playBtn.onclick = function(){
 				app.trigger("load");
 			};
+			app.on('map:resize', function(mapSize){
+				playBtn.style.left = (window.innerWidth + mapSize) * .5 + 'px';
+			});
 			element.appendChild(playBtn);
+
+			var mapDiv = ox('#map-div');
 
 			var mapToggleBtn = ox.create("div", "Hide Map");
 			mapToggleBtn.id = "map-toggle-button";
 			mapToggleBtn.className = 'ui';
 			mapToggleBtn.onclick = function(){
-				this.innerHTML = !document.body.classList.contains('state-map') ? "Hide Map" : "Show Map";
+				var doHide = document.body.classList.contains('state-map');
+				this.innerHTML = doHide ? "Show Map" : "Hide Map";
 				document.body.classList.toggle('state-map');
+				console.log('doHide', doHide);
+				if(doHide) app.trigger('map:resize', 0);
+				else app.trigger('map:resize', mapDiv.ox.width());
 			};
 			element.appendChild(mapToggleBtn);
 

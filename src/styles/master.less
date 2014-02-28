@@ -46,6 +46,33 @@ img, p, span, h1, h6 {
 			.transform(translateX(0));
 		}
 
+		.grabby-bar{
+			z-index: 1000;
+			position:absolute;
+			right: 0;
+			width: 24px;
+			height: 100%;
+			cursor: ew-resize;
+			.user-select(none);
+
+			.lines{
+				position:absolute;
+				top: 50%;
+				padding-right: 5px;
+				right: 0;
+				div{
+					float: right;
+					height: 30px;
+					margin-top: -15px;
+					position: relative;
+					padding: 2px;
+					border-right: 2px groove #bbb;
+				}
+			}
+
+
+		}
+
 		.search-field {
 			position: absolute;
 			bottom: 0;
@@ -60,7 +87,7 @@ img, p, span, h1, h6 {
 			img {
 				position: absolute;
 				right: 0;
-//				cursor: pointer;
+				//				cursor: pointer;
 				padding: 9px;
 			}
 			input {
@@ -113,10 +140,10 @@ img, p, span, h1, h6 {
 				margin-top: -225px;
 				top: 50%;
 				left: 50%;
-				.state-map-transition();
 				.state-map & {
 					left: 65%;
 				}
+				.state-map-transition();
 			}
 		}
 
@@ -128,10 +155,10 @@ img, p, span, h1, h6 {
 			margin-top: -10px;
 			top: 50%;
 			left: 50%;
-			.state-map-transition();
 			.state-map & {
 				left: 65%;
 			}
+			.state-map-transition();
 			z-index: 10;
 			color: white;
 			font-family: @fontTrumpMed;
@@ -152,7 +179,7 @@ img, p, span, h1, h6 {
 			z-index: -1;
 			position: absolute;
 			.state-map-transition();
-			.transform(translateX(0));
+
 			.state-map & {
 				.transform(translateX(15%));
 			}
@@ -182,12 +209,12 @@ img, p, span, h1, h6 {
 			}
 
 			.state-map-transition();
-			left: 50%;
-			.state-map & {
-				left: 65%;
-			}
+
 			.state-playing &, .state-loading & {
 				display: none;
+			}
+			.state-map & {
+				left: 65%;
 			}
 
 		}
@@ -217,6 +244,9 @@ img, p, span, h1, h6 {
 		.transition(all @map-move-duration @ease-out-ex);
 		.state-map & {
 			.transition(all @map-move-duration @ease-out-ex);
+		}
+		.state-grabbed &{
+			.transition(none);
 		}
 	}
 }

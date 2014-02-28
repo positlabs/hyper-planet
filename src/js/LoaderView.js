@@ -2,8 +2,8 @@ define(function (require) {
 
 	var LoaderView = function(element){
 
-		var percentSpan = element.querySelector('span');
-		var img = element.querySelector('img');
+		var percentSpan = ox('.preloader span');
+		var img = ox('.preloader img');
 
 		app.on('loadProgress', function(percent){
 			percentSpan.innerHTML = percent + "%";
@@ -15,6 +15,13 @@ define(function (require) {
 
 		app.on('routeChange', function(){
 			percentSpan.innerHTML = '';
+		});
+
+		app.on('map:resize', function(mapSize){
+			//TODO
+			var left = (window.innerWidth + mapSize) * .5;
+			percentSpan.style.left = left + 'px';
+			img.style.left = left + 'px';
 		});
 
 	};

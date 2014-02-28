@@ -75,6 +75,32 @@ define(function (require) {
 				var places = _this.searchBox.getPlaces();
 				_this.onPlaceChanged(places);
 			});
+
+			var grabbybar = ox('.grabby-bar');
+			var grabbed = false;
+			grabbybar.addEventListener('mousedown', function(e){
+				grabbed = true;
+				document.body.classList.add('state-grabbed');
+			});
+			document.body.addEventListener('mouseup', function(e){
+				grabbed = false;
+				document.body.classList.remove('state-grabbed');
+			});
+			document.body.addEventListener('mousemove', function(e){
+				if(!grabbed) return;
+				e.preventDefault();
+				var min = window.innerWidth * .15;
+				var max = window.innerWidth * .5;
+				var newWidth = e.pageX + 12;
+				newWidth = Math.max(min, newWidth);
+				newWidth = Math.min(max, newWidth);
+
+				parentEl.style.width = newWidth + 'px';
+				gm.event.trigger(_this.map, "resize");
+
+				app.trigger('map:resize', newWidth);
+
+			});
 		},
 		onPlaceChanged:function(places){
 			console.log("MapView."+"onPlaceChanged()", arguments);

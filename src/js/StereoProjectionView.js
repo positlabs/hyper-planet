@@ -68,6 +68,12 @@ define(function (require) {
 			window.addEventListener('keydown', this.onKeydown);
 
 			this.scrub = _.throttle(this.scrub, 1000/30);
+
+			var sp = ox('#stereo-projection');
+			var mapDiv = ox('#map-div');
+			app.on('map:resize', function (mapSize){
+				sp.transform({x:mapSize * .5});
+			});
 		},
 		onWheel: function (e) {
 
@@ -75,8 +81,6 @@ define(function (require) {
 			var zoomEnabled = document.body.classList.contains('state-playing');
 			if (zoomEnabled) {
 				var delta = -e.deltaY / 200;
-				console.log("" +
-						"delta",delta);
 				shaderPass.uniforms.scale.value += delta;
 				shaderPass.uniforms.scale.value = Math.min(20, shaderPass.uniforms.scale.value);
 				shaderPass.uniforms.scale.value = Math.max(3, shaderPass.uniforms.scale.value);

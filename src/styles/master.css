@@ -58,6 +58,18 @@
   font-weight: normal;
   font-style: normal;
 }
+.bkgdCover {
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.bkgdCover {
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 @-webkit-keyframes home-logo-in {
   0% {
     opacity: 0;
@@ -247,7 +259,9 @@
   width: 100%;
   height: 100%;
   /***************** 800 h ************************/
+
   /***************** 1050 h ************************/
+
 }
 .state-experiment #splash-container {
   display: none;
@@ -593,11 +607,42 @@ h6 {
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
 }
+.state-grabbed #experiment-container #map-container {
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+}
 .state-map #experiment-container #map-container {
   transform: translateX(0);
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);
+}
+#experiment-container #map-container .grabby-bar {
+  z-index: 1000;
+  position: absolute;
+  right: 0;
+  width: 24px;
+  height: 100%;
+  cursor: ew-resize;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+#experiment-container #map-container .grabby-bar .lines {
+  position: absolute;
+  top: 50%;
+  padding-right: 5px;
+  right: 0;
+}
+#experiment-container #map-container .grabby-bar .lines div {
+  float: right;
+  height: 30px;
+  margin-top: -15px;
+  position: relative;
+  padding: 2px;
+  border-right: 2px groove #bbb;
 }
 #experiment-container #map-container .search-field {
   position: absolute;
@@ -677,13 +722,19 @@ h6 {
   display: block;
 }
 .state-map #experiment-container .preloader .gif img {
+  left: 65%;
+}
+.state-map #experiment-container .preloader .gif img {
   transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
 }
-.state-map #experiment-container .preloader .gif img {
-  left: 65%;
+.state-grabbed #experiment-container .preloader .gif img {
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
 }
 #experiment-container .preloader span {
   position: absolute;
@@ -705,13 +756,19 @@ h6 {
   text-align: center;
 }
 .state-map #experiment-container .preloader span {
+  left: 65%;
+}
+.state-map #experiment-container .preloader span {
   transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
 }
-.state-map #experiment-container .preloader span {
-  left: 65%;
+.state-grabbed #experiment-container .preloader span {
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
 }
 #experiment-container #projection-container {
   width: 100%;
@@ -724,16 +781,18 @@ h6 {
   -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  transform: translateX(0);
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
 }
 .state-map #experiment-container #projection-container #stereo-projection {
   transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+}
+.state-grabbed #experiment-container #projection-container #stereo-projection {
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
 }
 .state-map #experiment-container #projection-container #stereo-projection {
   transform: translateX(15%);
@@ -761,7 +820,6 @@ h6 {
   -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
-  left: 50%;
 }
 #experiment-container .ui#play-btn:hover {
   background: url('../images/play_b.png');
@@ -772,12 +830,18 @@ h6 {
   -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
   -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
 }
-.state-map #experiment-container .ui#play-btn {
-  left: 65%;
+.state-grabbed #experiment-container .ui#play-btn {
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
 }
 .state-playing #experiment-container .ui#play-btn,
 .state-loading #experiment-container .ui#play-btn {
   display: none;
+}
+.state-map #experiment-container .ui#play-btn {
+  left: 65%;
 }
 #experiment-container .ui#map-toggle-button {
   position: absolute;
