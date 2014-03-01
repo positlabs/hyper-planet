@@ -86,11 +86,16 @@ define(function (require) {
 
 				// show route starting point
 				var pano = new Panorama(route[0], 2);
+				pano.quality = 0;
 
 				pano.on('load', function () {
 					StereoProjectionView.setTexture(pano.texture);
 					StereoProjectionView.render();
 					// new TilePreview(pano.tiles);
+					if(pano.quality < 3){
+						pano.quality ++;
+						pano.load();
+					}
 				});
 
 				pano.load();

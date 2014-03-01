@@ -4,33 +4,32 @@ define(function (require) {
 	var paramObj = {};
 
 	var Params = {
-		init:function(){
+		init: function () {
 			setInterval(this._checkParams, 300);
 			this._checkParams();
 		},
-		_checkParams:function(){
+		_checkParams: function () {
 			if (hashString != window.location.hash) {
 				hashString = window.location.hash;
 
 				var ampSplit = hashString.slice(2, hashString.length).split('&');
 				for (var i = 0, maxi = ampSplit.length; i < maxi; i++) {
-				  var eqSplit = ampSplit[i].split('=');
+					var eqSplit = ampSplit[i].split('=');
 					paramObj[eqSplit[0]] = eqSplit[1];
 				}
 
-				// if stuff needs values, they should handle that in an init function
-//				app.trigger("change:params", paramObj);
+				app.trigger("change:params", paramObj);
 
 			}
 		},
 		get: function (name) {
 			return paramObj[name];
 		},
-		set:function(key, value){
+		set: function (key, value) {
 			paramObj[key] = value;
 
 			var keyValArr = [];
-			for(p in paramObj){
+			for (p in paramObj) {
 				keyValArr.push(p + '=' + paramObj[p]);
 			}
 			var hash = '#/' + keyValArr.join('&');
