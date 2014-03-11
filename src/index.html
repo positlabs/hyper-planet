@@ -4,14 +4,20 @@
 	<meta charset="UTF-8">
 	<title>ECO-LAPSE | TOOL LABS</title>
 
-	<link rel="stylesheet" type="text/css" href="styles/master.css" media="all"/>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&sensor=false"></script>
 
+	<link rel="stylesheet" type="text/css" href="styles/master.css" media="all"/>
+
+	<!--(if target dist)>
+	<script type="text/javascript" src="main.js"></script>
+	<!(endif)-->
 
 </head>
 <body class="state-splash">
 
+<!--(if target dev)><!-->
 <script type="text/javascript" src="js/bower/requirejs/require.js" data-main="js/main"></script>
+<!--<!(endif)-->
 
 <div id="experiment-container">
 	<div id="map-container">

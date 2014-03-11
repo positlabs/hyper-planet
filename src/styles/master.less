@@ -95,14 +95,31 @@ img, p, span, h1, h6 {
 				width: 90%;
 				height: 100%;
 				color: white;
-				margin-left: 5%;
-				background: transparent;
+				padding: 0 5%;
+				background: #333;
 				border: none;
 				outline: none;
+				z-index: 2;
 			}
+
+			.pac-container{
+				.transition(all 1s 2s @easeIn);
+				display: block !important;
+				width: 100% !important;
+				left: 0 !important;
+				top: 0 !important;
+				.transform(translateY(100%));
+				z-index: -1;
+			}
+
 		}
+
 		&:hover {
 			.search-field {
+				.transition(all .3s @easeIn);
+				.transform(translateY(0));
+			}
+			.pac-container{
 				.transition(all .3s @easeIn);
 				.transform(translateY(0));
 			}
@@ -250,3 +267,4 @@ img, p, span, h1, h6 {
 		}
 	}
 }
+

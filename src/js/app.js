@@ -15,7 +15,9 @@ define(function (require) {
 		['34.1944244,-115.72303220000003', '34.309857,-115.70233310000003'], // death valley
 		['22.3168416,114.21253260000003', '22.2907293,114.21436410000001'], // hong kong 1
 		['22.3033724,114.15849890000004', '22.3279743,114.15112150000004'], // hong kong 2
-		['41.1411769,-8.60815290000005', '41.1441807,-8.579257900000016'] // france
+		['41.1411769,-8.60815290000005', '41.1441807,-8.579257900000016'], // france,
+		['24.7060896,-81.13010500000001', '24.6486217,-81.32246069999997'], // florida keys
+		['43.6382463,-79.39469650000001', '43.6507498,-79.38637210000002'] // toronto
 	];
 
 	var app = window.app = {
@@ -61,7 +63,7 @@ define(function (require) {
 				Params.set('d', d);
 //				Params._checkParams();
 				MapView.setRoute(o, d, true);
-			}else if(o && d){
+			} else if (o && d) {
 				MapView.setRoute(o, d, true);
 			}
 
@@ -92,8 +94,8 @@ define(function (require) {
 					StereoProjectionView.setTexture(pano.texture);
 					StereoProjectionView.render();
 					// new TilePreview(pano.tiles);
-					if(pano.quality < 3){
-						pano.quality ++;
+					if (pano.quality < 3) {
+						pano.quality++;
 						pano.load();
 					}
 				});

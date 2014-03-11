@@ -6,7 +6,7 @@ module.exports = function (grunt) {
 		watch: {
 			js: {
 				files: '**/*.js',
-				tasks: ['requirejs'],
+				tasks: ['requirejs:dev'],
 				options: {
 					interrupt: true
 				}
@@ -35,24 +35,85 @@ module.exports = function (grunt) {
 		},
 
 		requirejs: {
-			compile: {
+			dev: {
+				options: {
+					mainConfigFile: "src/js/require_config.js",
+
+					baseUrl: 'src/js/',
+					name: '../../node_modules/almond/almond',
+					insertRequire: ['main'],
+					include: [
+						'app',
+						'main',
+						'three',
+						'bower/ox/ox',
+						'three.CopyShader',
+						'three.ShaderPass',
+						'three.RenderPass',
+						'three.EffectComposer',
+						'three.MaskPass'
+					],
+					out: 'dist/main.js',
+					wrap: true,
+					optimize: 'none'
+				}
+			},
+			dist: {
 				options: {
 					baseUrl: 'src/js/',
 					name: '../../node_modules/almond/almond',
+					insertRequire: ["main"],
 					include: ['main'],
-					out: 'main.js',
-					wrap: true,
-					optimize: 'none' // TODO: make a requirejs:dist
+					out: 'dist/main.js',
+					optimize: 'uglify2',
+					wrap: true
 				}
 			}
+		},
+
+		// https://github.com/changer/grunt-targethtml
+		targethtml: {
+			dist: {
+				files: {
+					'dist/index.html': 'src/index.html'
+				}
+			}
+		},
+
+		// https://github.com/gruntjs/grunt-contrib-copy
+		copy: {
+			dist: {
+				files: [
+					{
+						expand: true,
+						dot: true,
+						cwd: 'src',
+						dest: 'dist',
+						src: [
+							'styles/master.css',
+							'styles/fonts/**/*',
+							'images/*'
+            ]
+					}
+				]
+			}
+		},
+
+		clean: {
+			dist: 'dist'
 		}
 
 	});
 
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-targethtml');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks("grunt-contrib-clean");
+
 
 //	grunt.registerTask('default', ['requirejs']);
 
+	grunt.registerTask('build', ['clean:dist', 'requirejs:dev', 'less', 'targethtml:dist', 'copy']);
 };

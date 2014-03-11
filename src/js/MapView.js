@@ -58,36 +58,49 @@ define(function (require) {
 			app.on('change:currentLocation', this.setCurrentPosition);
 
 			// set up search field
-//			var searchForm = ox('.search-field');
-//			searchForm.addEventListener('submit', function(e){e.preventDefault()});
 
-		//TODO: search box autocomplete
-		//TODO: button click
-			var searchBtn = ox('.search-field img');
 			var searchInput = ox('.search-field input');
+			var autocompleteEl;
 			this.searchBox = new gm.places.SearchBox(searchInput);
-//			searchBtn.addEventListener('click', function(){
-//				var places = _this.searchBox.getPlaces();
-//				_this.onPlaceChanged(places);
-//			});
+			setTimeout(function () {
+				searchInput.setAttribute('autocomplete', 'on');
+				autocompleteEl = ox('.pac-container');
+				autocompleteEl.remove();
+				ox('#map-container .search-field').appendChild(autocompleteEl);
+			}, 1000);
+
+			searchInput.on('keydown', function (e) {
+				setTimeout(tryPositioningAutocomplete, 100);
+				setTimeout(tryPositioningAutocomplete, 500);
+				setTimeout(tryPositioningAutocomplete, 1000);
+			});
+
+			function tryPositioningAutocomplete(){
+				autocompleteEl.ox.css({
+					marginTop: -autocompleteEl.offsetHeight + 'px'
+				});
+			}
 
 			gm.event.addListener(this.searchBox, 'places_changed', function (e) {
 				var places = _this.searchBox.getPlaces();
 				_this.onPlaceChanged(places);
+				searchInput.value = "";
+				tryPositioningAutocomplete();
 			});
 
+			// grabby bar
 			var grabbybar = ox('.grabby-bar');
 			var grabbed = false;
-			grabbybar.addEventListener('mousedown', function(e){
+			grabbybar.addEventListener('mousedown', function (e) {
 				grabbed = true;
 				document.body.classList.add('state-grabbed');
 			});
-			document.body.addEventListener('mouseup', function(e){
+			document.body.addEventListener('mouseup', function (e) {
 				grabbed = false;
 				document.body.classList.remove('state-grabbed');
 			});
-			document.body.addEventListener('mousemove', function(e){
-				if(!grabbed) return;
+			document.body.addEventListener('mousemove', function (e) {
+				if (!grabbed) return;
 				e.preventDefault();
 				var min = window.innerWidth * .15;
 				var max = window.innerWidth * .5;
@@ -102,8 +115,8 @@ define(function (require) {
 
 			});
 		},
-		onPlaceChanged:function(places){
-			console.log("MapView."+"onPlaceChanged()", arguments);
+		onPlaceChanged: function (places) {
+			console.log("MapView." + "onPlaceChanged()", arguments);
 			var _this = this;
 			geocoder.geocode({ 'address': places[0].formatted_address}, function (results, status) {
 				if (status == gm.GeocoderStatus.OK) {
