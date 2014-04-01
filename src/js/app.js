@@ -85,8 +85,8 @@ define(function (require) {
 				// set url params from directions
 				var leg = directions.routes[0].legs[0];
 
-				var o = leg.start_location.A + ',' + leg.start_location.k;
-				var d = leg.end_location.A + ',' + leg.end_location.k;
+				var o = leg.start_location.k + ',' + leg.start_location.A;
+				var d = leg.end_location.k + ',' + leg.end_location.A;
 				Params.set('o', o);
 				Params.set('d', d);
 				Params._checkParams();

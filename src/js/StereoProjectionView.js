@@ -67,7 +67,7 @@ define(function (require) {
 			this.onKeydown = _.bind(this.onKeydown, this);
 			window.addEventListener('keydown', this.onKeydown);
 
-			this.scrub = _.throttle(this.scrub, 1000/30);
+			this.scrub = _.throttle(this.scrub, 1000/16);
 
 			var sp = ox('#stereo-projection');
 			var mapDiv = ox('#map-div');

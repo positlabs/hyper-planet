@@ -6,7 +6,7 @@ define(function (require) {
 	var Params = {
 		init: function () {
 			setInterval(this._checkParams, 300);
-			this._checkParams();
+//			this._checkParams();
 		},
 		_checkParams: function () {
 			if (hashString != window.location.hash) {
