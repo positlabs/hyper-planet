@@ -36,7 +36,9 @@ define(function (require) {
 
 			var o = Params.get('o');
 			var d = Params.get('d');
+
 			var resetting = false; // are we picking a new location?
+
 			if (o) {
 				// check if params match one of the defaults.
 				// if it does, kick it out of the list and pick another one
@@ -50,17 +52,19 @@ define(function (require) {
 						i = maxi;
 					}
 				}
-
 			}
 
 			// if destination wasn't set, or if we're forcing a new location
 			if (!o || resetting) {
 				// set to default if not set from query params
 				var location = locations[Math.floor(Math.random() * locations.length)];
+				console.log("location",location);
+
 				var o = location[0],
 						d = location[1];
 				Params.set('o', o);
 				Params.set('d', d);
+
 //				Params._checkParams();
 				MapView.setRoute(o, d, true);
 			} else if (o && d) {
@@ -80,8 +84,9 @@ define(function (require) {
 
 				// set url params from directions
 				var leg = directions.routes[0].legs[0];
-				var o = leg.start_location.d + ',' + leg.start_location.e;
-				var d = leg.end_location.d + ',' + leg.end_location.e;
+
+				var o = leg.start_location.A + ',' + leg.start_location.k;
+				var d = leg.end_location.A + ',' + leg.end_location.k;
 				Params.set('o', o);
 				Params.set('d', d);
 				Params._checkParams();
