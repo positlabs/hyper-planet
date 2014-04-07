@@ -29,7 +29,7 @@ define(function (require) {
 			this.map = new gm.Map(mapDiv, mapOptions);
 
 			gm.event.addListener(this.map, 'click', function (e) {
-				_this.setRoute(e.latLng, new gm.LatLng(e.latLng.d + rand(.002), e.latLng.e + rand(.002)));
+				_this.setRoute(e.latLng, new gm.LatLng(e.latLng.k + rand(.002), e.latLng.A + rand(.002)));
 			});
 
 			directionsDisplay.setMap(this.map);
@@ -39,6 +39,10 @@ define(function (require) {
 				console.log("directions", directions);
 				app.trigger('routeChange', directions);
 			});
+
+			// add sv coverage layer
+			var streetViewLayer = new google.maps.StreetViewCoverageLayer();
+			streetViewLayer.setMap(this.map);
 
 			this.onParamChange = _.bind(this.onParamChange, this);
 			app.on('change:params', this.onParamChange);
@@ -75,7 +79,7 @@ define(function (require) {
 				setTimeout(tryPositioningAutocomplete, 1000);
 			});
 
-			function tryPositioningAutocomplete(){
+			function tryPositioningAutocomplete() {
 				autocompleteEl.ox.css({
 					marginTop: -autocompleteEl.offsetHeight + 'px'
 				});
