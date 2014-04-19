@@ -2,3 +2,5 @@ node_modules/
 src/js/bower/
 dist/
 .idea/
+.DS_Store
+*.orig

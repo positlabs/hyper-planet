@@ -18,7 +18,6 @@ define(function (require) {
 		});
 
 		app.on('map:resize', function(mapSize){
-			//TODO
 			var left = (window.innerWidth + mapSize) * .5;
 			percentSpan.style.left = left + 'px';
 			img.style.left = left + 'px';
