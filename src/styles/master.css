@@ -703,6 +703,7 @@ h6 {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -884,6 +885,7 @@ h6 {
   -webkit-transform: translateX(-50%) translateY(-50%);
   -moz-transform: translateX(-50%) translateY(-50%);
   -ms-transform: translateX(-50%) translateY(-50%);
+  opacity: 0;
 }
 .state-map #experiment-container #info {
   transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
@@ -899,10 +901,6 @@ h6 {
 }
 .state-info #experiment-container #info {
   opacity: 1;
-}
-.state-playing #experiment-container #info,
-.state-loading #experiment-container #info {
-  opacity: 0;
 }
 .state-map #experiment-container #info {
   left: 65%;
