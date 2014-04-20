@@ -10,7 +10,6 @@ define(function (require) {
 
 			var info = ox('#info');
 			info.on('click', function(e){
-				console.log('clicked info', e);
 				e.stopPropagation();
 			});
 
@@ -21,9 +20,8 @@ define(function (require) {
 			});
 
 			ox('body').on('click', function(e){
-				console.log('clicked projection container', e)
 				document.body.classList.remove('state-info');
-			})
+			});
 
 			var playBtn = ox.create('div');
 			playBtn.id = 'play-btn';
@@ -46,7 +44,6 @@ define(function (require) {
 				var doHide = document.body.classList.contains('state-map');
 				this.innerHTML = doHide ? "Show Map" : "Hide Map";
 				document.body.classList.toggle('state-map');
-				console.log('doHide', doHide);
 				if(doHide) app.trigger('map:resize', 0);
 				else app.trigger('map:resize', mapDiv.ox.width());
 			};
