@@ -1005,3 +1005,6 @@ h6 {
   -moz-transition: opacity 0.3s;
   -ms-transition: opacity 0.3s;
 }
+.state-splash #experiment-container #info-btn {
+  display: none;
+}
