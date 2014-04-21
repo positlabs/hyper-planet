@@ -31,118 +31,122 @@ define(function (require) {
 			UI.init(ox('#experiment-container'));
 			Params.init();
 
-			var route = []; // array of latLngs
-			var panoSeq = new PanoSequence();
+//			setTimeout(function () {
 
-			var o = Params.get('o');
-			var d = Params.get('d');
+				var route = []; // array of latLngs
+				var panoSeq = new PanoSequence();
 
-			var resetting = false; // are we picking a new location?
-
-			if (o) {
-				// check if params match one of the defaults.
-				// if it does, kick it out of the list and pick another one
+				var o = Params.get('o');
 				var d = Params.get('d');
-				for (var i = 0, maxi = locations.length; i < maxi; i++) {
-					var loc = locations[i];
-					if (loc[0] == o && loc[1] == d) {
-						// remove this location from defaults
-						locations.splice(i, 1);
-						resetting = true;
-						i = maxi;
+
+				var resetting = false; // are we picking a new location?
+
+				if (o) {
+					// check if params match one of the defaults.
+					// if it does, kick it out of the list and pick another one
+					var d = Params.get('d');
+					for (var i = 0, maxi = locations.length; i < maxi; i++) {
+						var loc = locations[i];
+						if (loc[0] == o && loc[1] == d) {
+							// remove this location from defaults
+							locations.splice(i, 1);
+							resetting = true;
+							i = maxi;
+						}
 					}
 				}
-			}
 
-			// if destination wasn't set, or if we're forcing a new location
-			if (!o || resetting) {
-				// set to default if not set from query params
-				var location = locations[Math.floor(Math.random() * locations.length)];
-				console.log("location",location);
+				// if destination wasn't set, or if we're forcing a new location
+//				if (!o || resetting) {
+				if (!o) {
+					// set to default if not set from query params
+					var location = locations[Math.floor(Math.random() * locations.length)];
+					console.log("location", location);
 
-				var o = location[0],
-						d = location[1];
-				Params.set('o', o);
-				Params.set('d', d);
+					var o = location[0],
+							d = location[1];
+					Params.set('o', o);
+					Params.set('d', d);
 
-//				Params._checkParams();
-				MapView.setRoute(o, d, true);
-			} else if (o && d) {
-				MapView.setRoute(o, d, true);
-			}
-
-			// map route changed
-			app.on("routeChange", function (directions) {
-
-				// invalidate textureseq since route changed
-				if (panoSeq) {
-					panoSeq.destroy();
-					panoSeq = undefined;
+					MapView.setRoute(o, d, true);
+				} else if (o && d) {
+					MapView.setRoute(o, d, true);
 				}
 
-				route = directions.routes[0].overview_path;
+				// map route changed
+				app.on("routeChange", function (directions) {
 
-				// set url params from directions
-				var leg = directions.routes[0].legs[0];
-
-				var o = leg.start_location.k + ',' + leg.start_location.A;
-				var d = leg.end_location.k + ',' + leg.end_location.A;
-				Params.set('o', o);
-				Params.set('d', d);
-				Params._checkParams();
-
-				// show route starting point
-				var pano = new Panorama(route[0], 2);
-				pano.quality = 0;
-
-				pano.on('load', function () {
-					StereoProjectionView.setTexture(pano.texture);
-					StereoProjectionView.render();
-					// new TilePreview(pano.tiles);
-					if (pano.quality < 3) {
-						pano.quality++;
-						pano.load();
+					// invalidate textureseq since route changed
+					if (panoSeq) {
+						panoSeq.destroy();
+						panoSeq = undefined;
 					}
+
+					route = directions.routes[0].overview_path;
+
+					// set url params from directions
+					var leg = directions.routes[0].legs[0];
+
+					var o = leg.start_location.k + ',' + leg.start_location.A;
+					var d = leg.end_location.k + ',' + leg.end_location.A;
+					Params.set('o', o);
+					Params.set('d', d);
+					Params._checkParams();
+
+					// show route starting point
+					var pano = new Panorama(route[0], 2);
+					pano.quality = 0;
+
+					pano.on('load', function () {
+						StereoProjectionView.setTexture(pano.texture);
+						StereoProjectionView.render();
+						// new TilePreview(pano.tiles);
+						if (pano.quality < 3) {
+							pano.quality++;
+							pano.load();
+						}
+					});
+
+					pano.load();
+
+					app.trigger('stop'); // stopping timelapse
+
 				});
 
-				pano.load();
+				// loading all of the panoramas
+				app.on('load', function () {
+					document.body.classList.add('state-loading');
 
-				app.trigger('stop'); // stopping timelapse
+					if (panoSeq && panoSeq.loading) return; // already loading
 
-			});
-
-			// loading all of the panoramas
-			app.on('load', function () {
-				document.body.classList.add('state-loading');
-
-				if (panoSeq && panoSeq.loading) return; // already loading
-
-				if (panoSeq && panoSeq.loaded) {
-					// replay the animation
-					StereoProjectionView.play(panoSeq);
-				} else {
-					if (panoSeq) panoSeq.destroy();
-					panoSeq = new PanoSequence();
-					panoSeq.on('load', function () {
+					if (panoSeq && panoSeq.loaded) {
+						// replay the animation
 						StereoProjectionView.play(panoSeq);
-					});
-					panoSeq.load(route);
-				}
+					} else {
+						if (panoSeq) panoSeq.destroy();
+						panoSeq = new PanoSequence();
+						panoSeq.on('load', function () {
+							StereoProjectionView.play(panoSeq);
+						});
+						panoSeq.load(route);
+					}
 
-			});
+				});
 
-			app.on('play', function () {
-				document.body.classList.remove('state-loading');
-				document.body.classList.add('state-playing');
-			});
+				app.on('play', function () {
+					document.body.classList.remove('state-loading');
+					document.body.classList.add('state-playing');
+				});
 
-			app.on('stop', function () {
-				document.body.classList.remove('state-loading');
-				document.body.classList.remove('state-playing');
-			});
+				app.on('stop', function () {
+					document.body.classList.remove('state-loading');
+					document.body.classList.remove('state-playing');
+				});
 
 
+//			}, 5000);
 		}
+
 	};
 
 	return window.app;

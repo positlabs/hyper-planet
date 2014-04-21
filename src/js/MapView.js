@@ -29,6 +29,8 @@ define(function (require) {
 			this.map = new gm.Map(mapDiv, mapOptions);
 
 			gm.event.addListener(this.map, 'click', function (e) {
+				console.log("e",e);
+
 				_this.setRoute(e.latLng, new gm.LatLng(e.latLng.k + rand(.002), e.latLng.A + rand(.002)));
 			});
 
@@ -144,6 +146,7 @@ define(function (require) {
 			this.currentLocMarker.setPosition(latLng);
 		},
 		setRoute: function (origin, destination, autoZoom) {
+			console.log("MapView."+"setRoute()", arguments);
 			var _this = this;
 			var request = {
 				origin: origin,

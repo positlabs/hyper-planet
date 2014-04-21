@@ -60,7 +60,7 @@ define(function (require) {
 			// note: this is a hack because we don't know how big the actual pano is...
 			// there is sometimes a black bar on the bottom and right of the image
 			// subtract 2x blackBarHeight from width, 1x from height
-			// rotate canvas 108deg, crop out what we don't need
+			// rotate canvas 180deg, crop out what we don't need
 			var outCanvas = ox.create('canvas');
 			outCanvas.width = canvas.width - blackBarHeight * 2;
 			outCanvas.height = canvas.height - blackBarHeight;

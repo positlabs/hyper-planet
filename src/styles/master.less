@@ -265,7 +265,8 @@ img, p, span, h1, h6 {
 		@size: 800px;
 		width: @size;
 		height: @size;
-	 
+		border-radius: 50%;
+
 		.transform(translateX(-50%) translateY(-50%));
 
 		opacity: 0;
@@ -286,6 +287,8 @@ img, p, span, h1, h6 {
 			color: white;
 			background: #444;
 		 	border-radius: 50%;
+
+			.user-select(none);
 
 			.transition(all .5s);
 			.transform(scale(0.0001));
