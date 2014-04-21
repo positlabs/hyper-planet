@@ -703,6 +703,7 @@ h6 {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -849,7 +850,8 @@ h6 {
   -ms-transition: none;
 }
 .state-playing #experiment-container .ui#play-btn,
-.state-loading #experiment-container .ui#play-btn {
+.state-loading #experiment-container .ui#play-btn,
+.state-info #experiment-container .ui#play-btn {
   display: none;
 }
 .state-map #experiment-container .ui#play-btn {
@@ -868,4 +870,139 @@ h6 {
   color: black;
   border: 1px solid gray;
   border-radius: 1px;
+}
+#experiment-container #info {
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  opacity: 0;
+}
+.state-map #experiment-container #info {
+  transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -webkit-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -moz-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+  -ms-transition: all 0.5s cubic-bezier(0.15, 0.75, 0.49, 0.93);
+}
+.state-grabbed #experiment-container #info {
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+}
+.state-info #experiment-container #info {
+  opacity: 1;
+}
+.state-map #experiment-container #info {
+  left: 65%;
+}
+#experiment-container #info .contents {
+  width: 800px;
+  height: 800px;
+  font-family: "LetterGothicStd-Slanted", "Lucida Console", Monaco, monospace;
+  color: white;
+  background: #444;
+  border-radius: 50%;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  transform: scale(0.0001);
+  -webkit-transform: scale(0.0001);
+  -moz-transform: scale(0.0001);
+  -ms-transform: scale(0.0001);
+}
+.state-info #experiment-container #info .contents {
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+}
+#experiment-container #info .contents .actual-contents {
+  position: absolute;
+  top: 100px;
+  left: 200px;
+}
+#experiment-container #info .contents .actual-contents h1 {
+  text-transform: uppercase;
+  font-family: "TrumpGothicEastBold", Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+}
+#experiment-container #info .contents .actual-contents ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#experiment-container #info .contents .actual-contents ul li {
+  display: block;
+  clear: both;
+  line-height: 67px;
+}
+#experiment-container #info .contents .actual-contents ul li .icon {
+  width: 100px;
+  height: 67px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-right: 50px;
+  float: left;
+}
+#experiment-container #info .contents .actual-contents ul li .icon.zero {
+  background-image: url('../images/icons/icon_0.png');
+}
+#experiment-container #info .contents .actual-contents ul li .icon.one {
+  background-image: url('../images/icons/icon_1.png');
+}
+#experiment-container #info .contents .actual-contents ul li .icon.two {
+  background-image: url('../images/icons/icon_2.png');
+}
+#experiment-container #info .contents .actual-contents ul li .icon.three {
+  background-image: url('../images/icons/icon_3.png');
+}
+#experiment-container #info .contents .actual-contents ul li .icon.four {
+  background-image: url('../images/icons/icon_4.png');
+}
+#experiment-container #info .contents .actual-contents ul li .icon.five {
+  background-image: url('../images/icons/icon_5.png');
+}
+#experiment-container #info .contents .actual-contents ul li .icon.six {
+  background-image: url('../images/icons/icon_6.png');
+}
+#experiment-container #info-btn {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 22px;
+  right: 22px;
+  cursor: pointer;
+  background: url('../images/info-icon.png') no-repeat center center;
+  background-size: 110%;
+  border-radius: 50%;
+  opacity: .4;
+  transition: opacity 0.6s;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+  -ms-transition: opacity 0.6s;
+}
+#experiment-container #info-btn:hover {
+  opacity: .7;
+  transition: opacity 0.3s;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+  -ms-transition: opacity 0.3s;
+}
+.state-splash #experiment-container #info-btn {
+  display: none;
 }
