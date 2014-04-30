@@ -10,6 +10,8 @@ define(function (require) {
 	var PanoSequence = require('PanoSequence');
 	var Params = require('Params');
 
+	//TODO: investigate how images are being stored. Do not store on the GPU.
+
 	// preset locations
 	var locations = [
 		['34.1944244,-115.72303220000003', '34.309857,-115.70233310000003'], // death valley
