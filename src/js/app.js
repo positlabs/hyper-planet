@@ -10,8 +10,6 @@ define(function (require) {
 	var PanoSequence = require('PanoSequence');
 	var Params = require('Params');
 
-	//TODO: investigate how images are being stored. Do not store on the GPU.
-
 	// preset locations
 	var locations = [
 		['34.1944244,-115.72303220000003', '34.309857,-115.70233310000003'], // death valley
@@ -66,7 +64,7 @@ define(function (require) {
 					console.log("location", location);
 
 					var o = location[0],
-							d = location[1];
+						d = location[1];
 					Params.set('o', o);
 					Params.set('d', d);
 
@@ -89,8 +87,15 @@ define(function (require) {
 					// set url params from directions
 					var leg = directions.routes[0].legs[0];
 
-					var o = leg.start_location.k + ',' + leg.start_location.A;
-					var d = leg.end_location.k + ',' + leg.end_location.A;
+					// FIXME: lat/long letters keep changing...
+					// k:lat
+					// A:long
+
+					// var o = leg.start_location.k + ',' + leg.start_location.A;
+					// var d = leg.end_location.k + ',' + leg.end_location.A;
+
+					var o = leg.start_location.k + ',' + leg.start_location.B;
+					var d = leg.end_location.k + ',' + leg.end_location.B;
 					Params.set('o', o);
 					Params.set('d', d);
 					Params._checkParams();
