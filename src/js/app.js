@@ -94,8 +94,13 @@ define(function (require) {
 					// var o = leg.start_location.k + ',' + leg.start_location.A;
 					// var d = leg.end_location.k + ',' + leg.end_location.A;
 
-					var o = leg.start_location.k + ',' + leg.start_location.B;
-					var d = leg.end_location.k + ',' + leg.end_location.B;
+					// var o = leg.start_location.k + ',' + leg.start_location.B;
+					// var d = leg.end_location.k + ',' + leg.end_location.B;
+					var startloc = new app.LatLng(leg.start_location);
+					var endloc = new app.LatLng(leg.end_location);
+
+					var o = startloc.lat + ',' + startloc.long;
+					var d = endloc.lat + ',' + endloc.long;
 					Params.set('o', o);
 					Params.set('d', d);
 					Params._checkParams();
@@ -150,8 +155,18 @@ define(function (require) {
 					document.body.classList.remove('state-playing');
 				});
 
-
 //			}, 5000);
+		},
+
+		// convert google.maps.LatLng into something more predictable
+		LatLng: function(latLng){
+			console.log	(latLng);
+
+			var split = latLng.toString().replace('(','').replace(')','').split(', ');
+			this.lat = Number(split[0]);
+			this.long = Number(split[1]);
+			this.original = latLng;
+
 		}
 
 	};

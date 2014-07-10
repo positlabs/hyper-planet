@@ -31,7 +31,9 @@ define(function (require) {
 			gm.event.addListener(this.map, 'click', function (e) {
 				console.log("e",e);
 
-				_this.setRoute(e.latLng, new gm.LatLng(e.latLng.k + rand(.002), e.latLng.A + rand(.002)));
+				var latLng = new app.LatLng(e.latLng);
+				_this.setRoute(new gm.LatLng(latLng.lat, latLng.long), new gm.LatLng(latLng.lat + rand(.002), latLng.long + rand(.002)));
+				// _this.setRoute(e.latLng, new gm.LatLng(e.latLng.k + rand(.002), e.latLng.A + rand(.002)));
 			});
 
 			directionsDisplay.setMap(this.map);
@@ -133,6 +135,7 @@ define(function (require) {
 			});
 
 		},
+		
 		onParamChange: function (params) {
 			var o = params.o,
 					d = params.d;
@@ -142,9 +145,11 @@ define(function (require) {
 				this.setRoute(o, o, true);
 			}
 		},
+		
 		setCurrentPosition: function (latLng) {
 			this.currentLocMarker.setPosition(latLng);
 		},
+
 		setRoute: function (origin, destination, autoZoom) {
 			console.log("MapView."+"setRoute()", arguments);
 			var _this = this;
